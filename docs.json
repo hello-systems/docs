@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Script",
   "colors": {
-    "primary": "#000000",
-    "light": "#374151",
-    "dark": "#111827"
+    "primary": "#6366F1",
+    "light": "#4F46E5",
+    "dark": "#818CF8"
   },
   "favicon": "/favicon.svg",
   "navigation": {
