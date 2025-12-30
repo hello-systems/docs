@@ -22,12 +22,7 @@
         {
           "anchor": "App",
           "icon": "rocket",
-          "href": "https://www.script.so"
-        },
-        {
-          "anchor": "GitHub",
-          "icon": "github",
-          "href": "https://github.com/hello-systems"
+          "href": "https://script.so"
         }
       ]
     },
