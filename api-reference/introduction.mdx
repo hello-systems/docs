@@ -1,33 +1,114 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: "API Reference"
+description: "Trigger workflows programmatically, manage executions, and integrate Script into your applications."
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Overview
 
-## Welcome
+The Script API lets you:
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+- **Create and manage workflows** programmatically
+- **Run workflows** with custom inputs
+- **Batch process** hundreds of items
+- **Monitor execution** status and results
+- **Modify steps** dynamically
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+## Base URL
+
+```
+https://api.script.so/v1
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All endpoints require a Bearer token. Get your API key from [Settings → API](https://app.script.so/settings/api).
+
+```bash
+curl https://api.script.so/v1/workflows \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Quick Start
+
+### 1. List your workflows
+
+```bash
+curl https://api.script.so/v1/workflows \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### 2. Run a workflow
+
+```bash
+curl -X POST https://api.script.so/v1/workflows/{workflow_id}/run \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"inputs": {"email": "john@example.com"}}'
+```
+
+### 3. Check execution status
+
+```bash
+curl https://api.script.so/v1/executions/{execution_id} \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Response Format
+
+All responses are JSON:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
+{
+  "data": { ... },
+  "meta": {
+    "request_id": "req_abc123"
   }
-]
+}
 ```
+
+## Rate Limits
+
+| Plan | Requests/minute | Concurrent executions |
+|------|-----------------|----------------------|
+| Free | 60 | 5 |
+| Pro | 300 | 25 |
+| Enterprise | Custom | Custom |
+
+## Errors
+
+| Code | Description |
+|------|-------------|
+| 400 | Bad request — check your parameters |
+| 401 | Unauthorized — invalid or missing API key |
+| 404 | Not found — resource doesn't exist |
+| 429 | Rate limited — slow down |
+| 500 | Server error — try again later |
+
+## SDKs
+
+<CardGroup cols={2}>
+  <Card title="TypeScript/Node.js" icon="js">
+    ```bash
+    npm install @script/sdk
+    ```
+  </Card>
+  <Card title="Python" icon="python">
+    ```bash
+    pip install script-sdk
+    ```
+  </Card>
+</CardGroup>
+
+## Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Workflows" icon="diagram-project" href="/api-reference/workflows/list">
+    List, create, and manage workflows
+  </Card>
+  <Card title="Executions" icon="play" href="/api-reference/executions/run">
+    Run workflows and check status
+  </Card>
+  <Card title="Steps" icon="list-check" href="/api-reference/steps/add">
+    Add, update, and delete steps
+  </Card>
+</CardGroup>

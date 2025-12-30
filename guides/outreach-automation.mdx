@@ -1,0 +1,154 @@
+---
+title: "Outreach Automation"
+description: "Build personalized outreach at scale — research, write, review, send."
+---
+
+## Components
+
+- **Data enrichment** for personalization
+- **AI-generated content** that sounds human
+- **Multi-channel sequences** (email, LinkedIn)
+- **Human oversight** for quality
+
+## Basic Email Workflow
+
+**Step 1** — Import:
+
+```
+Get leads from @Google Sheets where Status = "Not Contacted"
+```
+
+**Step 2** — Research:
+
+```
+For each lead:
+- Get company info from @Apollo
+- Find recent news via @Perplexity
+- Identify pain points
+```
+
+**Step 3** — Write:
+
+```
+For each lead, write a personalized email:
+- Reference something specific about their company
+- Connect to a relevant pain point
+- Under 100 words
+- Clear CTA
+```
+
+**Step 4** — Review:
+
+```
+[user-input] Review emails:
+- Show recipient, subject, preview
+- Allow editing
+- Approve or reject each
+```
+
+**Step 5** — Send:
+
+```
+For approved emails:
+- Send via @Gmail
+- Log to spreadsheet
+- Update status
+```
+
+## Multi-Touch Sequences
+
+```
+Day 0: Initial email
+Day 3: Follow-up if no reply
+Day 7: LinkedIn connection
+Day 14: Final email, different angle
+```
+
+## Personalization
+
+### By trigger
+
+```
+If company just raised funding:
+- Congratulate on the raise
+- Connect to growth challenges
+```
+
+### By industry
+
+```
+SaaS: Focus on MRR, churn, scaling
+E-commerce: Focus on conversion, AOV
+Agency: Focus on client acquisition, margins
+```
+
+### By role
+
+```
+CEO: Strategic outcomes
+VP: Team efficiency, metrics
+IC: Daily workflow improvements
+```
+
+## Compliance
+
+<Warning>
+Always follow email compliance requirements.
+</Warning>
+
+### Required
+
+- Clear sender identification
+- Physical address
+- Unsubscribe link
+- Honor opt-outs immediately
+
+### GDPR (EU leads)
+
+- Lawful basis for contact
+- Data access/deletion options
+- Document consent
+
+### Deliverability
+
+- Warm up new domains
+- Reasonable daily volume
+- Monitor bounces and spam complaints
+
+## A/B Testing
+
+### Subject lines
+
+```
+A: "Quick question about {{company}}"
+B: "{{name}}, saw your recent announcement"
+
+Send 50/50, track opens, use winner
+```
+
+### Message angles
+
+```
+A: Pain-focused ("Struggling with X?")
+B: Gain-focused ("Achieve Y faster")
+
+Track reply rates
+```
+
+## Tips
+
+1. **Quality over quantity** — 20 great emails > 200 generic
+2. **Research genuinely** — Personalization should be real
+3. **Test first** — Send to yourself before batch
+4. **Track everything** — Data helps you improve
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Deep Research" icon="magnifying-glass" href="/tutorials/deep-research">
+    Better lead research
+  </Card>
+  <Card title="User Inputs" icon="hand" href="/tutorials/user-inputs">
+    Add approval steps
+  </Card>
+</CardGroup>

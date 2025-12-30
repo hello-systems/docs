@@ -1,0 +1,107 @@
+---
+title: "Dashboards"
+description: "Generate visualizations and reports from your workflow data — CSV, JSON, HTML charts, and tables."
+---
+
+## Output Formats
+
+| Format | Use case |
+|--------|----------|
+| **CSV** | Spreadsheet analysis, Excel/Sheets import |
+| **JSON** | Structured data, API integration |
+| **HTML** | Rich reports with charts and tables |
+
+## Basic Example
+
+**Step 1** — Get data:
+
+```
+Fetch all orders from @Stripe for the last 30 days
+```
+
+**Step 2** — Process:
+
+```
+Calculate total revenue, order count, and average order value
+```
+
+**Step 3** — Visualize:
+
+```
+Create an HTML report with:
+- Summary metrics at top
+- Bar chart of sales by product
+- Table of recent orders
+```
+
+## Output Types
+
+### CSV
+
+```
+Export as CSV with columns: date, product, amount, customer
+```
+
+### JSON
+
+```
+Output the processed data as JSON
+```
+
+### HTML report
+
+```
+Create an HTML report with charts showing sales trends
+```
+
+## Example: Sales Report
+
+**Step 1** — Fetch:
+
+```
+Get all orders from @Stripe for the last 30 days
+```
+
+**Step 2** — Calculate:
+
+```
+Calculate:
+- Total revenue
+- Order count
+- Average order value
+- Top 10 products by revenue
+```
+
+**Step 3** — Generate:
+
+```
+Create a report with:
+- Key metrics
+- Revenue by day chart
+- Top products table
+```
+
+## Viewing Results
+
+After your workflow runs, click output tabs to see:
+
+- **CSV** — Download or preview data
+- **JSON** — View structured data
+- **HTML** — View rendered report in fullscreen
+
+## Tips
+
+1. **Be specific about format** — Name exact columns or fields you want
+2. **Include context** — Add dates, totals, labels
+3. **Choose the right format** — CSV for analysis, HTML for presentation
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Scraping Data" icon="spider-web" href="/tutorials/scraping-data">
+    Get data from websites
+  </Card>
+  <Card title="Deep Research" icon="magnifying-glass" href="/tutorials/deep-research">
+    AI-powered research
+  </Card>
+</CardGroup>

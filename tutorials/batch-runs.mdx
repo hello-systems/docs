@@ -1,0 +1,97 @@
+---
+title: "Batch Runs"
+description: "Run your workflow on hundreds of items at once. Upload a CSV, paste from a spreadsheet, or add rows manually."
+---
+
+## When to Use
+
+- Process a list of leads
+- Send personalized emails at scale
+- Enrich multiple records
+- Research many companies
+
+## How It Works
+
+<Steps>
+  <Step title="Create a workflow with input fields" />
+  <Step title="Click Batch Run" />
+  <Step title="Add your data (CSV, paste, or manual)" />
+  <Step title="Click Submit — each row runs as a separate execution" />
+</Steps>
+
+## Example: Lead Outreach
+
+**Step 1** — Define inputs:
+
+```
+[user-input] Enter:
+- Lead name
+- Lead email
+- Company name
+```
+
+**Step 2** — Research:
+
+```
+Research the company using @Perplexity
+```
+
+**Step 3** — Generate email:
+
+```
+Write a personalized cold email referencing the research
+```
+
+**Step 4** — Send:
+
+```
+Send via @Gmail
+```
+
+Now upload a CSV with 500 leads and run them all.
+
+## Adding Data
+
+### Paste from spreadsheet
+
+Copy cells from Excel or Google Sheets → paste directly into the table.
+
+### Upload CSV
+
+```csv
+name,email,company
+John Smith,john@acme.com,Acme Inc
+Jane Doe,jane@techcorp.io,TechCorp
+```
+
+<Note>Column headers must match your input field names.</Note>
+
+### Manual entry
+
+Click **Add row** to enter data one by one.
+
+## Monitor Progress
+
+During execution:
+
+- See status of each run (pending, running, completed, failed)
+- View outputs as they complete
+- Identify and retry failed runs
+
+## Tips
+
+1. **Test first** — Run on 1 item before batching hundreds
+2. **Start small** — Try 5-10 rows, then scale up
+3. **Check data** — Ensure required fields are filled
+4. **Spot check** — Review a sample of outputs for quality
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Multi-Step Workflows" icon="diagram-project" href="/guides/multi-step-workflows">
+    Build complex automations
+  </Card>
+  <Card title="Outreach Automation" icon="envelope" href="/guides/outreach-automation">
+    Scale your outreach
+  </Card>
+</CardGroup>

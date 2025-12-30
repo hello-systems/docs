@@ -1,0 +1,53 @@
+---
+title: "Anthropic"
+description: "Use Claude for text generation, analysis, and complex reasoning in your workflows."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Go to Settings → Integrations → Anthropic" />
+  <Step title="Enter your Anthropic API key" />
+  <Step title="Done" />
+</Steps>
+
+<Info>Get your API key from [console.anthropic.com](https://console.anthropic.com)</Info>
+
+## Actions
+
+| Action | Example Prompt |
+|--------|---------------|
+| Generate text | `Use @Anthropic to write a summary of {{document}}` |
+| Analyze | `Use @Anthropic to analyze this data and identify patterns` |
+| Extract | `Use @Anthropic to extract key information as JSON` |
+| Reason | `Use @Anthropic to evaluate these options and recommend one` |
+
+## Models
+
+| Model | Best for |
+|-------|----------|
+| `claude-3-5-sonnet` | Complex tasks, long documents |
+| `claude-3-5-haiku` | Fast, cost-effective |
+
+## Example
+
+```
+Use @Anthropic to analyze this customer feedback:
+1. Identify main themes
+2. Extract specific feature requests
+3. Rate overall sentiment (1-10)
+4. Summarize in 3 bullet points
+
+Output as JSON.
+```
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="OpenAI" icon="brain" href="/integrations/openai">
+    Compare with OpenAI
+  </Card>
+  <Card title="Deep Research" icon="magnifying-glass" href="/tutorials/deep-research">
+    AI-powered research
+  </Card>
+</CardGroup>

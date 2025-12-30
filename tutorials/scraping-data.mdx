@@ -1,0 +1,108 @@
+---
+title: "Scraping Data"
+description: "Extract data from any website. Script handles JavaScript rendering, pagination, and structured extraction."
+---
+
+## Tools
+
+| Tool | Best for |
+|------|----------|
+| **Firecrawl** | General scraping, JS-heavy sites |
+| **Apify** | Complex scenarios, pre-built scrapers |
+| **HTTP requests** | Simple APIs, static pages |
+
+## Basic Scraping
+
+```
+Use @Firecrawl to scrape https://example.com/products
+```
+
+## Extract Structured Data
+
+```
+Use @Firecrawl to scrape https://example.com/products and extract:
+- Product name
+- Price
+- Description
+- Image URL
+```
+
+## Crawl Multiple Pages
+
+```
+Use @Firecrawl to crawl all product pages on example.com
+Start from /products
+Limit to 100 pages
+```
+
+## Example: Price Monitoring
+
+**Step 1** — Define targets:
+
+```
+Create a list of competitor product URLs to monitor
+```
+
+**Step 2** — Scrape prices:
+
+```
+Use @Firecrawl to scrape each URL and extract the current price
+```
+
+**Step 3** — Compare and alert:
+
+```
+Compare to our prices in @Google Sheets
+If any competitor is 10%+ cheaper, alert @Slack
+```
+
+## Common Challenges
+
+### JavaScript-rendered content
+
+Firecrawl handles this automatically. For other methods:
+
+```
+Wait for the page to fully load before extracting
+```
+
+### Pagination
+
+```
+Follow the "Next" button until no more pages
+```
+
+### Rate limiting
+
+```
+Add 2-second delay between requests
+```
+
+### Authentication
+
+```
+Log in first, then scrape the dashboard
+```
+
+## Best Practices
+
+<Warning>
+Always check if scraping is permitted before proceeding.
+</Warning>
+
+1. **Respect robots.txt** — Check if scraping is allowed
+2. **Rate limit** — Don't overwhelm servers
+3. **Handle errors** — Sites change, pages disappear
+4. **Check ToS** — Ensure scraping is permitted
+5. **Mind privacy laws** — GDPR, CCPA for personal data
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Deep Research" icon="magnifying-glass" href="/tutorials/deep-research">
+    AI-powered research
+  </Card>
+  <Card title="Batch Runs" icon="layer-group" href="/tutorials/batch-runs">
+    Scrape at scale
+  </Card>
+</CardGroup>

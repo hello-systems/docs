@@ -1,0 +1,43 @@
+---
+title: "Firecrawl"
+description: "Scrape websites and extract structured data from any URL."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Go to Settings → Integrations → Firecrawl" />
+  <Step title="Enter your Firecrawl API key" />
+  <Step title="Done" />
+</Steps>
+
+## Actions
+
+| Action | Example Prompt |
+|--------|---------------|
+| Scrape page | `Use @Firecrawl to scrape {{url}}` |
+| Extract data | `Use @Firecrawl to extract product info from {{url}}` |
+| Crawl site | `Use @Firecrawl to crawl all pages on {{domain}}` |
+
+## Example
+
+```
+Use @Firecrawl to scrape {{url}} and extract:
+- Title
+- Main content
+- All links
+- Images
+
+Output as JSON.
+```
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Scraping Data" icon="spider-web" href="/tutorials/scraping-data">
+    Scraping tutorial
+  </Card>
+  <Card title="Exa" icon="search" href="/integrations/exa">
+    Alternative search
+  </Card>
+</CardGroup>

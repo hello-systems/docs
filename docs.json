@@ -1,68 +1,153 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Script",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#000000",
+    "light": "#374151",
+    "dark": "#111827"
   },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Get Started",
             "pages": [
               "index",
               "quickstart",
-              "development"
+              "connecting-tools",
+              "how-it-works"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Tutorials",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "tutorials/user-inputs",
+              "tutorials/dashboards",
+              "tutorials/scraping-data",
+              "tutorials/deep-research",
+              "tutorials/batch-runs"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Guides",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "guides/multi-step-workflows",
+              "guides/human-approvals",
+              "guides/google-sheets",
+              "guides/outreach-automation",
+              "guides/ecommerce"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "Integrations",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "AI & LLMs",
+            "pages": [
+              "integrations/openai",
+              "integrations/anthropic",
+              "integrations/google-gemini",
+              "integrations/perplexity",
+              "integrations/xai"
+            ]
+          },
+          {
+            "group": "Communication",
+            "pages": [
+              "integrations/gmail",
+              "integrations/slack",
+              "integrations/twilio",
+              "integrations/whatsapp"
+            ]
+          },
+          {
+            "group": "Data & Storage",
+            "pages": [
+              "integrations/google-sheets",
+              "integrations/airtable",
+              "integrations/notion",
+              "integrations/supabase"
+            ]
+          },
+          {
+            "group": "CRM & Sales",
+            "pages": [
+              "integrations/apollo",
+              "integrations/hubspot",
+              "integrations/pipedrive"
+            ]
+          },
+          {
+            "group": "Web & Scraping",
+            "pages": [
+              "integrations/firecrawl",
+              "integrations/exa",
+              "integrations/apify"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
             "pages": [
               "api-reference/introduction"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Workflows",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              {
+                "openapi": "GET /workflows"
+              },
+              {
+                "openapi": "POST /workflows"
+              },
+              {
+                "openapi": "GET /workflows/{workflow_id}"
+              }
+            ]
+          },
+          {
+            "group": "Executions",
+            "pages": [
+              {
+                "openapi": "POST /workflows/{workflow_id}/run"
+              },
+              {
+                "openapi": "POST /workflows/{workflow_id}/batch"
+              },
+              {
+                "openapi": "GET /executions/{execution_id}"
+              },
+              {
+                "openapi": "GET /executions/{execution_id}/results"
+              },
+              {
+                "openapi": "GET /batch/{batch_id}"
+              }
+            ]
+          },
+          {
+            "group": "Steps",
+            "pages": [
+              {
+                "openapi": "POST /workflows/{workflow_id}/steps"
+              },
+              {
+                "openapi": "PUT /workflows/{workflow_id}/steps/{step_id}"
+              },
+              {
+                "openapi": "DELETE /workflows/{workflow_id}/steps/{step_id}"
+              }
             ]
           }
         ]
@@ -71,14 +156,14 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "App",
+          "href": "https://app.script.so",
+          "icon": "rocket"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "GitHub",
+          "href": "https://github.com/hello-systems",
+          "icon": "github"
         }
       ]
     }
@@ -91,32 +176,27 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@script.so"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Get Started",
+      "href": "https://app.script.so"
     }
   },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+  "api": {
+    "baseUrl": "https://api.script.so",
+    "auth": {
+      "method": "bearer"
+    }
   },
+  "openapi": "/openapi.yaml",
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/scriptso",
+      "github": "https://github.com/hello-systems",
+      "linkedin": "https://linkedin.com/company/script"
     }
   }
 }

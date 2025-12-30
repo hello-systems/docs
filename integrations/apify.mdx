@@ -1,0 +1,32 @@
+---
+title: "Apify"
+description: "Run pre-built scrapers and actors for complex data extraction."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Go to Settings → Integrations → Apify" />
+  <Step title="Enter your Apify API token" />
+  <Step title="Done" />
+</Steps>
+
+## Actions
+
+| Action | Example Prompt |
+|--------|---------------|
+| Run actor | `Run @Apify actor "apify/web-scraper" on {{url}}` |
+| Get results | `Get results from @Apify run {{run_id}}` |
+
+## Popular Actors
+
+- `apify/web-scraper` — General scraping
+- `apify/google-search-scraper` — Search results
+- `apify/instagram-scraper` — Instagram data
+- `apify/linkedin-scraper` — LinkedIn profiles
+
+## Next
+
+<Card title="Firecrawl" icon="spider-web" href="/integrations/firecrawl">
+  Simpler scraping alternative
+</Card>

@@ -1,0 +1,75 @@
+---
+title: "Slack"
+description: "Send messages, alerts, and notifications to Slack channels from your workflows."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Go to Settings → Integrations → Slack" />
+  <Step title="Click Connect and authorize Script" />
+  <Step title="Select your workspace" />
+</Steps>
+
+## Actions
+
+| Action | Example Prompt |
+|--------|---------------|
+| Send message | `Send to @Slack #sales: "New lead: {{name}}"` |
+| Post to channel | `Post summary to @Slack #daily-report` |
+| DM user | `Send DM via @Slack to @john: "Task completed"` |
+| Rich message | `Send formatted message to @Slack with blocks` |
+
+## Examples
+
+### Alert on event
+
+```
+If order value > $1000:
+Send to @Slack #high-value:
+"🎉 Big order! ${{amount}} from {{customer}}"
+```
+
+### Daily summary
+
+```
+Post to @Slack #sales-report:
+- Total revenue: ${{revenue}}
+- Orders: {{count}}
+- Top product: {{top_product}}
+```
+
+### Error notification
+
+```
+If step fails:
+Alert @Slack #ops with error details
+```
+
+## Formatting
+
+```
+Send to @Slack #channel with:
+- Bold: *text*
+- Code: `code`
+- Link: <url|text>
+- Emoji: :rocket:
+```
+
+## Tips
+
+1. **Use dedicated channels** — Keep alerts organized
+2. **Include context** — Who, what, why, and link to details
+3. **Don't spam** — Batch low-priority alerts
+4. **Use threads** — Keep channels clean
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Multi-Step Workflows" icon="diagram-project" href="/guides/multi-step-workflows">
+    Add Slack alerts to workflows
+  </Card>
+  <Card title="E-commerce" icon="shopping-cart" href="/guides/ecommerce">
+    Order and inventory alerts
+  </Card>
+</CardGroup>

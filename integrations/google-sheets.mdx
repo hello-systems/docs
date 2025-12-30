@@ -1,0 +1,66 @@
+---
+title: "Google Sheets"
+description: "Read, write, and sync data with Google Sheets from your workflows."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Go to Settings → Integrations → Google Sheets" />
+  <Step title="Click Connect and sign in with Google" />
+  <Step title="Grant access to your spreadsheets" />
+</Steps>
+
+## Actions
+
+| Action | Example Prompt |
+|--------|---------------|
+| Read rows | `Get all rows from @Google Sheets "Leads"` |
+| Filter rows | `Get rows where Status = "New" from @Google Sheets "Leads"` |
+| Add row | `Add row to @Google Sheets "Output" with {{data}}` |
+| Update row | `Update row where Email = "{{email}}" in @Google Sheets` |
+| Create sheet | `Create @Google Sheets "Report - {{date}}"` |
+
+## Examples
+
+### Read and process
+
+```
+Get leads from @Google Sheets "Sales Pipeline" where Stage = "Qualified"
+For each: enrich with company data, update sheet
+```
+
+### Write results
+
+```
+Write all processed leads to @Google Sheets "Enriched Leads":
+- Name, Email, Company
+- Revenue estimate
+- Enrichment date
+```
+
+### Sync between sheets
+
+```
+Get new rows from @Google Sheets "Form Responses"
+Transform and append to @Google Sheets "Master List"
+Mark as synced
+```
+
+## Tips
+
+1. **Use headers** — First row should be column names
+2. **Named ranges** — Reference by name, not A1 notation
+3. **Batch writes** — Combine multiple rows into one operation
+4. **Handle errors** — Check if sheet exists before writing
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Google Sheets Guide" icon="book" href="/guides/google-sheets">
+    Advanced patterns and tips
+  </Card>
+  <Card title="Batch Runs" icon="layer-group" href="/tutorials/batch-runs">
+    Process spreadsheet data at scale
+  </Card>
+</CardGroup>

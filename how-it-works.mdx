@@ -1,0 +1,76 @@
+---
+title: "How It Works"
+description: "Natural language in, TypeScript out, deterministic execution."
+---
+
+Script workflows are sequences of steps. Each step: natural language in, TypeScript out, deterministic execution.
+
+## The Flow
+
+```
+Describe step → Generate TypeScript → Execute → Output files → Next step
+```
+
+<Steps>
+  <Step title="You describe what a step should do" />
+  <Step title="AI generates TypeScript code (once, at build time)" />
+  <Step title="Code runs in a secure sandbox" />
+  <Step title="Step outputs files for downstream steps" />
+  <Step title="Repeat for each step in your workflow" />
+</Steps>
+
+## Deterministic Execution
+
+Unlike agents that make AI decisions at runtime:
+
+| Feature | Script |
+|---------|--------|
+| **Predictability** | Same inputs → same outputs every time |
+| **Runtime AI** | None — code path is fixed at generation |
+| **Debugging** | Errors show exactly where and why |
+
+<Info>The AI runs once during generation. At runtime, it's just code.</Info>
+
+## Step Structure
+
+```
+┌─────────────────────────────────────┐
+│  "Fetch orders from Shopify"        │  ← Your description
+├─────────────────────────────────────┤
+│  Generated TypeScript               │  ← AI-generated code
+│  • Calls Shopify API                │
+│  • Transforms response              │
+│  • Writes output files              │
+├─────────────────────────────────────┤
+│  Outputs: orders.csv, summary.json  │  ← Available to next step
+└─────────────────────────────────────┘
+```
+
+## Outputs
+
+| Type | Description |
+|------|-------------|
+| CSV / JSON | Structured data |
+| Dashboard | Charts, metrics |
+| HITL Form | Human approval UI |
+| Spreadsheet | Google Sheets |
+| Markdown | Reports |
+
+## Iteration
+
+**First try:** Most workflows work immediately.
+
+**Refinement:** Describe what to change. AI updates the code. Usually 1 iteration, sometimes 2-3 for edge cases.
+
+Faster than editing code manually. More precise than re-explaining from scratch.
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Build something
+  </Card>
+  <Card title="Tutorials" icon="book" href="/tutorials/user-inputs">
+    Step-by-step guides
+  </Card>
+</CardGroup>

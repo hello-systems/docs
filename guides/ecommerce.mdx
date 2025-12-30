@@ -1,0 +1,196 @@
+---
+title: "E-commerce Automation"
+description: "Automate orders, inventory, customer outreach, and analytics — from Stripe webhook to customer inbox."
+---
+
+## What You Can Automate
+
+| Category | Examples |
+|----------|----------|
+| **Orders** | Confirmations, fulfillment, tracking, review requests |
+| **Inventory** | Low stock alerts, reorder automation, price monitoring |
+| **Customers** | Abandoned cart recovery, win-back campaigns, VIP nurturing |
+| **Analytics** | Daily sales reports, cohort analysis, revenue forecasting |
+
+## Integrations
+
+- **Stripe** — Payments and orders
+- **Google Sheets** — Data and reporting
+- **Gmail** — Customer emails
+- **Slack** — Team alerts
+- **Shopify** — Coming soon
+
+---
+
+## Order Confirmations
+
+**Step 1** — Trigger:
+
+```
+Listen for new order events from @Stripe
+```
+
+**Step 2** — Enrich:
+
+```
+Get customer history and loyalty tier
+Check for special instructions
+```
+
+**Step 3** — Generate:
+
+```
+Create personalized confirmation:
+- Order details
+- Estimated delivery
+- Loyalty points earned
+- Recommended products
+```
+
+**Step 4** — Send:
+
+```
+Send via @Gmail
+Update CRM
+Notify #fulfillment on @Slack
+```
+
+---
+
+## Low Stock Alerts
+
+**Step 1** — Check inventory:
+
+```
+Get stock levels, compare to reorder thresholds
+```
+
+**Step 2** — Identify reorders:
+
+```
+For items below threshold:
+- Calculate reorder quantity
+- Check supplier lead times
+- Estimate stockout date
+```
+
+**Step 3** — Alert:
+
+```
+Send to @Slack #inventory:
+- Critical items (< 3 days supply)
+- Items to reorder this week
+- Recommended quantities
+```
+
+**Step 4** — Approve:
+
+```
+[user-input] Approve reorder for critical items?
+```
+
+**Step 5** — Process:
+
+```
+Generate purchase orders
+Send to suppliers
+Update expected delivery dates
+```
+
+---
+
+## Abandoned Cart Recovery
+
+**Step 1** — Find abandoned carts:
+
+```
+Get carts abandoned in last 24 hours
+Exclude: already recovered, opted out, purchased elsewhere
+```
+
+**Step 2** — Segment by value:
+
+```
+High (>$200): Personal follow-up
+Medium ($50-200): Email sequence
+Low (<$50): Single reminder
+```
+
+**Step 3** — Personalize:
+
+```
+For each cart:
+- List abandoned items
+- Add incentive based on history
+- Include reviews and popularity
+```
+
+**Step 4** — Schedule:
+
+```
+High value: Immediate + human review
+Medium: 1h, 24h, 72h sequence
+Low: 4 hours
+```
+
+---
+
+## Daily Sales Dashboard
+
+**Step 1** — Get data:
+
+```
+From @Stripe:
+- Revenue (today, WTD, MTD)
+- Average order value
+- New vs returning customers
+```
+
+**Step 2** — Calculate trends:
+
+```
+Compare to same day last week/month/year
+Calculate % changes
+```
+
+**Step 3** — Find insights:
+
+```
+Flag if:
+- Revenue changed >20%
+- Unusual product popularity
+- Cart abandonment spike
+```
+
+**Step 4** — Generate report:
+
+```
+Create HTML report with:
+- Revenue metrics
+- Orders by hour chart
+- Top products table
+```
+
+---
+
+## Tips
+
+1. **Test manually first** — Understand edge cases before automating
+2. **Handle errors** — Retry failed emails, alert team if still failing
+3. **Focus personalization** — Product recommendations > subject lines
+4. **Track performance** — Open rates, recovery rates, time saved
+5. **Respect preferences** — Honor unsubscribes, don't over-communicate
+
+## Next
+
+<CardGroup cols={3}>
+  <Card title="Google Sheets" icon="table" href="/guides/google-sheets">
+    Data management
+  </Card>
+  <Card title="Batch Runs" icon="layer-group" href="/tutorials/batch-runs">
+    Process orders at scale
+  </Card>
+  <Card title="Dashboards" icon="chart-bar" href="/tutorials/dashboards">
+    Build analytics dashboards
+  </Card>
+</CardGroup>

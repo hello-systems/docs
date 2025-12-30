@@ -1,0 +1,138 @@
+---
+title: "Multi-Step Workflows"
+description: "Break complex automations into steps. Each step does one thing. Data flows automatically between them."
+---
+
+## Why Steps?
+
+- **Modularity** — Each step does one thing well
+- **Debugging** — See exactly where issues occur
+- **Readability** — Understand the workflow at a glance
+
+## Example: Lead Qualification
+
+**Step 1** — Fetch leads:
+
+```
+Get new leads from @HubSpot created in the last 24 hours
+```
+
+**Step 2** — Enrich:
+
+```
+For each lead, get company info from @Apollo
+```
+
+**Step 3** — Score:
+
+```
+Score each lead:
+- Company size (1-10)
+- Industry match (1-10)
+- Title seniority (1-10)
+```
+
+**Step 4** — Route hot leads:
+
+```
+If score > 25:
+- Add to "Hot Leads" in @HubSpot
+- Alert #sales on @Slack
+```
+
+**Step 5** — Nurture the rest:
+
+```
+If score <= 25:
+- Add to nurture sequence
+- Tag as "nurture"
+```
+
+## Data Flow
+
+Each step automatically accesses outputs from previous steps:
+
+```
+Using the leads from Step 1...
+Take the enriched data from the previous step...
+Filter the scored leads from Step 3...
+```
+
+<Info>Script wires up the data flow automatically.</Info>
+
+## Conditional Logic
+
+### If/then
+
+```
+If score > 25, add to hot leads
+Otherwise, add to nurture
+```
+
+### Early exit
+
+```
+If no leads found, skip remaining steps
+```
+
+### Loops
+
+```
+For each lead:
+- Enrich
+- Score
+- Update CRM
+```
+
+## Error Handling
+
+### Per-step
+
+```
+If enrichment fails, log error and continue with next lead
+```
+
+### Workflow-level
+
+```
+If critical step fails, alert #ops and stop
+```
+
+### Retry
+
+```
+If API fails, retry 3 times with backoff
+```
+
+## Tips
+
+1. **One thing per step** — "Fetch leads" not "Fetch, enrich, score, update"
+2. **Validate early** — Check required fields before processing
+3. **Plan for failure** — What happens if a step fails?
+
+## Advanced
+
+### Parallel processing
+
+```
+Process leads 1-50 and 51-100 in parallel
+Combine when done
+```
+
+### Checkpointing
+
+```
+Save progress every 100 items
+Resume from checkpoint if interrupted
+```
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Human Approvals" icon="user-check" href="/guides/human-approvals">
+    Add approval gates
+  </Card>
+  <Card title="Batch Runs" icon="layer-group" href="/tutorials/batch-runs">
+    Process at scale
+  </Card>
+</CardGroup>

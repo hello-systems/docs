@@ -1,0 +1,32 @@
+---
+title: "Airtable"
+description: "Read and write data to Airtable bases from your workflows."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Go to Settings → Integrations → Airtable" />
+  <Step title="Click Connect and authorize Script" />
+  <Step title="Select your bases" />
+</Steps>
+
+## Actions
+
+| Action | Example Prompt |
+|--------|---------------|
+| Get records | `Get all records from @Airtable "Leads" base` |
+| Filter | `Get records where Status = "New" from @Airtable` |
+| Create | `Create record in @Airtable with {{data}}` |
+| Update | `Update record in @Airtable where Email = "{{email}}"` |
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Google Sheets" icon="table" href="/integrations/google-sheets">
+    Alternative spreadsheet
+  </Card>
+  <Card title="Notion" icon="book" href="/integrations/notion">
+    Alternative database
+  </Card>
+</CardGroup>

@@ -1,0 +1,67 @@
+---
+title: "Gmail"
+description: "Send emails, read inbox, and manage messages from your workflows."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Go to Settings → Integrations → Gmail" />
+  <Step title="Click Connect and sign in with Google" />
+  <Step title="Grant access permissions" />
+</Steps>
+
+## Actions
+
+| Action | Example Prompt |
+|--------|---------------|
+| Send email | `Send email via @Gmail to {{email}} with subject "{{subject}}"` |
+| Read inbox | `Get unread emails from @Gmail from the last 24 hours` |
+| Search | `Search @Gmail for emails from {{sender}}` |
+| Reply | `Reply to this email via @Gmail` |
+| Add label | `Add "Processed" label to this email in @Gmail` |
+
+## Examples
+
+### Send personalized email
+
+```
+Send via @Gmail:
+To: {{lead_email}}
+Subject: Quick question about {{company}}
+Body: {{generated_email}}
+```
+
+### Process inbox
+
+```
+Get unread emails from @Gmail with subject containing "support"
+Extract: sender, subject, body preview
+```
+
+### Batch send
+
+```
+For each approved lead:
+- Send personalized email via @Gmail
+- Log to spreadsheet
+- Mark as "Contacted"
+```
+
+## Tips
+
+1. **Test first** — Send to yourself before batch sending
+2. **Use templates** — Keep subject and body consistent
+3. **Track sends** — Log every email to a spreadsheet
+4. **Respect limits** — Gmail allows ~500 emails/day for personal accounts
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Outreach Automation" icon="envelope" href="/guides/outreach-automation">
+    Scale personalized outreach
+  </Card>
+  <Card title="Batch Runs" icon="layer-group" href="/tutorials/batch-runs">
+    Send to many recipients
+  </Card>
+</CardGroup>

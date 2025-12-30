@@ -1,0 +1,27 @@
+---
+title: "Supabase"
+description: "Query and update your Supabase database from workflows."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Go to Settings → Integrations → Supabase" />
+  <Step title="Enter your Supabase URL and API key" />
+  <Step title="Done" />
+</Steps>
+
+## Actions
+
+| Action | Example Prompt |
+|--------|---------------|
+| Query | `Get all users from @Supabase where active = true` |
+| Insert | `Insert new record into @Supabase users table` |
+| Update | `Update @Supabase record where id = "{{id}}"` |
+| Delete | `Delete from @Supabase where status = "cancelled"` |
+
+## Next
+
+<Card title="Google Sheets" icon="table" href="/integrations/google-sheets">
+  No-code alternative
+</Card>

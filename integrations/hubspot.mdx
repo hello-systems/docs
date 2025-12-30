@@ -1,0 +1,27 @@
+---
+title: "HubSpot"
+description: "Sync contacts, companies, and deals with HubSpot CRM."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Go to Settings → Integrations → HubSpot" />
+  <Step title="Click Connect and authorize Script" />
+  <Step title="Select your HubSpot account" />
+</Steps>
+
+## Actions
+
+| Action | Example Prompt |
+|--------|---------------|
+| Get contacts | `Get contacts from @HubSpot where status = "lead"` |
+| Create contact | `Create contact in @HubSpot with {{data}}` |
+| Update deal | `Update @HubSpot deal stage to "Qualified"` |
+| Add note | `Add note to @HubSpot contact` |
+
+## Next
+
+<Card title="Pipedrive" icon="handshake" href="/integrations/pipedrive">
+  Alternative CRM
+</Card>

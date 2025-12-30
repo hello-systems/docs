@@ -1,0 +1,90 @@
+---
+title: "User Inputs"
+description: "Add human checkpoints to your workflows — for approvals, reviews, or manual data entry."
+---
+
+## When to Use
+
+- **Approval gates** — Review before sending emails or making changes
+- **Data verification** — Confirm AI-generated content before it goes out
+- **Manual input** — Collect information that can't be automated
+- **Quality control** — Checkpoint critical workflows
+
+## Basic Syntax
+
+Add `[user-input]` to any step description:
+
+```
+[user-input] Review the email draft and approve before sending
+```
+
+The workflow pauses, shows a form, waits for input, then continues.
+
+## Example: Email Approval
+
+**Step 1** — Generate content:
+
+```
+Draft a follow-up email for leads who haven't responded in 7 days
+```
+
+**Step 2** — Get approval:
+
+```
+[user-input] Review the draft and choose:
+- Approve and send
+- Edit the subject line
+- Skip this lead
+```
+
+**Step 3** — Send:
+
+```
+If approved, send via @Gmail
+```
+
+## Form Fields
+
+Describe what you need naturally. Script generates the appropriate fields:
+
+```
+[user-input] Ask the user to:
+- Confirm the recipient list (yes/no)
+- Optionally edit the subject line
+- Add notes for the recipient
+```
+
+## Tips
+
+<Tip>Be specific about what's needed:</Tip>
+
+```
+[user-input] Verify the amount (${{total}}) matches your records
+```
+
+<Tip>Provide context for decisions:</Tip>
+
+```
+[user-input] Display the customer name and order history, then ask for approval
+```
+
+<Tip>Make options clear:</Tip>
+
+```
+[user-input] How should we handle this lead?
+- Send standard follow-up
+- Send personalized message
+- Mark as not interested
+- Skip for now
+```
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Multi-Step Workflows" icon="diagram-project" href="/guides/multi-step-workflows">
+    Build end-to-end automations
+  </Card>
+  <Card title="Batch Runs" icon="layer-group" href="/tutorials/batch-runs">
+    Process lists with human review
+  </Card>
+</CardGroup>

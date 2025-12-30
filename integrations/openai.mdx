@@ -1,0 +1,85 @@
+---
+title: "OpenAI"
+description: "Generate text, analyze content, and power AI features in your workflows."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Go to Settings → Integrations → OpenAI" />
+  <Step title="Enter your OpenAI API key" />
+  <Step title="Done" />
+</Steps>
+
+<Info>Get your API key from [platform.openai.com/api-keys](https://platform.openai.com/api-keys)</Info>
+
+## Actions
+
+| Action | Example Prompt |
+|--------|---------------|
+| Generate text | `Use @OpenAI to write a product description for {{product}}` |
+| Summarize | `Use @OpenAI to summarize this article in 3 bullet points` |
+| Analyze sentiment | `Use @OpenAI to analyze the sentiment of these reviews` |
+| Extract data | `Use @OpenAI to extract company name, industry, and size from this text` |
+| Translate | `Use @OpenAI to translate this text to Spanish` |
+| Classify | `Use @OpenAI to categorize these support tickets` |
+
+## Models
+
+| Model | Best for |
+|-------|----------|
+| `gpt-4o` | Complex reasoning, analysis |
+| `gpt-4o-mini` | Fast, cost-effective tasks |
+
+## Examples
+
+### Content generation
+
+```
+Use @OpenAI to write a personalized follow-up email for {{lead_name}} at {{company}}.
+Reference their recent {{news}} and connect to our {{product}}.
+Keep it under 100 words.
+```
+
+### Data extraction
+
+```
+Use @OpenAI to extract from this job posting:
+- Job title
+- Required skills (list)
+- Years of experience required
+- Salary range (if mentioned)
+
+Output as JSON.
+```
+
+### Classification
+
+```
+Use @OpenAI to classify these customer messages:
+- billing
+- technical
+- feature_request
+- complaint
+- other
+
+Include confidence score.
+```
+
+## Tips
+
+1. **Be specific** — Detailed prompts get better results
+2. **Provide examples** — Show the format you want
+3. **Use structured output** — Request JSON for data extraction
+4. **Iterate** — Refine prompts based on results
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Deep Research" icon="magnifying-glass" href="/tutorials/deep-research">
+    AI-powered research workflows
+  </Card>
+  <Card title="Outreach Automation" icon="envelope" href="/guides/outreach-automation">
+    AI-generated personalized emails
+  </Card>
+</CardGroup>

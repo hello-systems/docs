@@ -1,0 +1,93 @@
+---
+title: "Human Approvals"
+description: "Add approval gates and review steps to keep humans in control of critical actions."
+---
+
+## When to Add
+
+- **High-stakes actions** — Sending emails, making purchases, deleting data
+- **Quality gates** — Reviewing AI-generated content
+- **Compliance** — Audit trails, approval chains
+- **Edge cases** — Exceptions automation can't decide
+
+## Confirmation Types
+
+### Simple approval
+
+```
+[user-input] Approve sending these 50 emails?
+Options: Approve All, Reject All
+```
+
+### Review and edit
+
+```
+[user-input] Review the email draft:
+- Show the draft
+- Allow editing subject and body
+- Approve or reject
+```
+
+### Selective approval
+
+```
+[user-input] Review each lead:
+- Show details
+- Approve or reject individually
+```
+
+### Data entry
+
+```
+[user-input] Enter discount for this customer:
+- Customer history
+- Discount % (0-50)
+- Justification
+```
+
+## Example: Content Approval
+
+**Step 1** — Generate:
+
+```
+Use @OpenAI to write a blog post on the topic
+```
+
+**Step 2** — Review:
+
+```
+[user-input] Review the draft:
+- Read the content
+- Edit for style/tone
+- Approve, request changes, or reject
+```
+
+**Step 3** — Route:
+
+```
+If approved, continue
+If rejected, end workflow
+```
+
+**Step 4** — Publish:
+
+```
+Publish to @WordPress
+```
+
+## Tips
+
+1. **Provide context** — Show what action happens, who's affected, why approval needed
+2. **Make decisions easy** — Clear options, clear consequences
+3. **Keep forms simple** — Only ask what's needed
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="User Inputs" icon="hand" href="/tutorials/user-inputs">
+    Basic input tutorial
+  </Card>
+  <Card title="Outreach Automation" icon="envelope" href="/guides/outreach-automation">
+    Apply to outreach
+  </Card>
+</CardGroup>
