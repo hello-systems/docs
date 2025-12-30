@@ -178,7 +178,7 @@
                 "openapi": "POST /workflows"
               },
               {
-                "openapi": "GET /workflows/{workflow_id}"
+                "openapi": "GET /workflows/{workflowId}"
               }
             ]
           },
@@ -186,19 +186,19 @@
             "group": "Executions",
             "pages": [
               {
-                "openapi": "POST /workflows/{workflow_id}/run"
+                "openapi": "POST /workflows/{workflowId}/run"
               },
               {
-                "openapi": "POST /workflows/{workflow_id}/batch"
+                "openapi": "POST /workflows/{workflowId}/batch"
               },
               {
-                "openapi": "GET /executions/{execution_id}"
+                "openapi": "GET /executions/{executionId}"
               },
               {
-                "openapi": "GET /executions/{execution_id}/results"
+                "openapi": "GET /executions/{executionId}/results"
               },
               {
-                "openapi": "GET /batch/{batch_id}"
+                "openapi": "GET /batches/{batchId}"
               }
             ]
           },
@@ -206,13 +206,13 @@
             "group": "Steps",
             "pages": [
               {
-                "openapi": "POST /workflows/{workflow_id}/steps"
+                "openapi": "POST /workflows/{workflowId}/steps"
               },
               {
-                "openapi": "PUT /workflows/{workflow_id}/steps/{step_id}"
+                "openapi": "PATCH /workflows/{workflowId}/steps/{stepId}"
               },
               {
-                "openapi": "DELETE /workflows/{workflow_id}/steps/{step_id}"
+                "openapi": "DELETE /workflows/{workflowId}/steps/{stepId}"
               }
             ]
           }
