@@ -161,59 +161,12 @@
       },
       {
         "tab": "API Reference",
+        "openapi": "/openapi.yaml",
         "groups": [
           {
             "group": "Overview",
             "pages": [
               "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Workflows",
-            "pages": [
-              {
-                "openapi": "GET /workflows"
-              },
-              {
-                "openapi": "POST /workflows"
-              },
-              {
-                "openapi": "GET /workflows/{workflowId}"
-              }
-            ]
-          },
-          {
-            "group": "Executions",
-            "pages": [
-              {
-                "openapi": "POST /workflows/{workflowId}/run"
-              },
-              {
-                "openapi": "POST /workflows/{workflowId}/batch"
-              },
-              {
-                "openapi": "GET /executions/{executionId}"
-              },
-              {
-                "openapi": "GET /executions/{executionId}/results"
-              },
-              {
-                "openapi": "GET /batches/{batchId}"
-              }
-            ]
-          },
-          {
-            "group": "Steps",
-            "pages": [
-              {
-                "openapi": "POST /workflows/{workflowId}/steps"
-              },
-              {
-                "openapi": "PATCH /workflows/{workflowId}/steps/{stepId}"
-              },
-              {
-                "openapi": "DELETE /workflows/{workflowId}/steps/{stepId}"
-              }
             ]
           }
         ]
@@ -257,7 +210,6 @@
       "method": "bearer"
     }
   },
-  "openapi": "/openapi.yaml",
   "footer": {
     "socials": {
       "x": "https://x.com/scriptso",
