@@ -209,7 +209,7 @@
     "primary": {
       "type": "button",
       "label": "Get Started",
-      "href": "https://app.script.so"
+      "href": "https://script.so"
     }
   },
   "api": {
