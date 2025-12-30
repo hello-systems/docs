@@ -208,9 +208,9 @@
   },
   "footer": {
     "socials": {
+      "linkedin": "https://linkedin.com/company/scriptso",
       "x": "https://x.com/scriptso",
-      "github": "https://github.com/hello-systems",
-      "linkedin": "https://linkedin.com/company/script"
+      "discord": "https://discord.gg/scriptso"
     }
   },
   "appearance": {
