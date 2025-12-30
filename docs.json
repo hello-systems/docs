@@ -1,7 +1,15 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Script",
+  "name": "Script Docs",
+  "metadata": {
+    "og:site_name": "Script Docs",
+    "og:title": "Script - Workflow Automation",
+    "og:description": "Describe what you need. Get automation that works.",
+    "og:image": "https://script.so/og-image.png",
+    "twitter:card": "summary_large_image",
+    "twitter:site": "@scriptso"
+  },
   "colors": {
     "primary": "#3B82F6",
     "light": "#2563EB",
