@@ -197,7 +197,7 @@
     "primary": {
       "type": "button",
       "label": "Start Building",
-      "href": "https://script.so"
+      "href": "/"
     }
   },
   "api": {
