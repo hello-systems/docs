@@ -16,7 +16,7 @@ The Script API lets you:
 ## Base URL
 
 ```
-https://api.script.so/v1
+https://script.so/api/v1
 ```
 
 ## Authentication
@@ -24,7 +24,7 @@ https://api.script.so/v1
 All endpoints require a Bearer token. Get your API key from [Settings → API](https://app.script.so/settings/api).
 
 ```bash
-curl https://api.script.so/v1/workflows \
+curl https://script.so/api/v1/workflows \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -33,14 +33,14 @@ curl https://api.script.so/v1/workflows \
 ### 1. List your workflows
 
 ```bash
-curl https://api.script.so/v1/workflows \
+curl https://script.so/api/v1/workflows \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ### 2. Run a workflow
 
 ```bash
-curl -X POST https://api.script.so/v1/workflows/{workflow_id}/run \
+curl -X POST https://script.so/api/v1/workflows/{workflow_id}/run \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"inputs": {"email": "john@example.com"}}'
@@ -49,7 +49,7 @@ curl -X POST https://api.script.so/v1/workflows/{workflow_id}/run \
 ### 3. Check execution status
 
 ```bash
-curl https://api.script.so/v1/executions/{execution_id} \
+curl https://script.so/api/v1/executions/{execution_id} \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 

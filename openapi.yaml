@@ -12,7 +12,7 @@ info:
     url: https://script.so
 
 servers:
-  - url: https://api.script.so/v1
+  - url: https://script.so/api/v1
     description: Production
 
 security:

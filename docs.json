@@ -213,7 +213,7 @@
     }
   },
   "api": {
-    "baseUrl": "https://api.script.so",
+    "baseUrl": "https://script.so/api",
     "auth": {
       "method": "bearer"
     }
