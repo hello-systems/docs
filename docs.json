@@ -11,9 +11,13 @@
     "twitter:site": "@scriptso"
   },
   "colors": {
-    "primary": "#3B82F6",
-    "light": "#2563EB",
-    "dark": "#93C5FD"
+    "primary": "#64748B",
+    "light": "#475569",
+    "dark": "#94A3B8",
+    "background": {
+      "light": "#FFFFFF",
+      "dark": "#0F172A"
+    }
   },
   "favicon": "/favicon.svg",
   "navigation": {
