@@ -41,6 +41,13 @@
               "guides/outreach-automation",
               "guides/ecommerce"
             ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "faqs",
+              "changelog"
+            ]
           }
         ]
       },
@@ -48,11 +55,17 @@
         "tab": "Integrations",
         "groups": [
           {
+            "group": "Overview",
+            "pages": [
+              "integrations/overview"
+            ]
+          },
+          {
             "group": "AI & LLMs",
             "pages": [
-              "integrations/openai",
               "integrations/anthropic",
               "integrations/google-gemini",
+              "integrations/openai",
               "integrations/perplexity",
               "integrations/xai"
             ]
@@ -61,7 +74,9 @@
             "group": "Communication",
             "pages": [
               "integrations/gmail",
+              "integrations/resend",
               "integrations/slack",
+              "integrations/telegram",
               "integrations/twilio",
               "integrations/whatsapp"
             ]
@@ -69,8 +84,10 @@
           {
             "group": "Data & Storage",
             "pages": [
-              "integrations/google-sheets",
               "integrations/airtable",
+              "integrations/dropbox",
+              "integrations/google-drive",
+              "integrations/google-sheets",
               "integrations/notion",
               "integrations/supabase"
             ]
@@ -79,16 +96,65 @@
             "group": "CRM & Sales",
             "pages": [
               "integrations/apollo",
-              "integrations/hubspot",
+              "integrations/heyreach",
+              "integrations/linkedin",
+              "integrations/mailchimp",
               "integrations/pipedrive"
+            ]
+          },
+          {
+            "group": "Productivity",
+            "pages": [
+              "integrations/calendly",
+              "integrations/google-calendar",
+              "integrations/google-contacts",
+              "integrations/google-docs",
+              "integrations/google-forms",
+              "integrations/google-meet",
+              "integrations/google-slides",
+              "integrations/linear",
+              "integrations/typeform",
+              "integrations/zoom"
+            ]
+          },
+          {
+            "group": "Developer Tools",
+            "pages": [
+              "integrations/github",
+              "integrations/aws",
+              "integrations/google-cloud"
             ]
           },
           {
             "group": "Web & Scraping",
             "pages": [
-              "integrations/firecrawl",
+              "integrations/ahrefs",
+              "integrations/apify",
               "integrations/exa",
-              "integrations/apify"
+              "integrations/firecrawl"
+            ]
+          },
+          {
+            "group": "Media & Design",
+            "pages": [
+              "integrations/canva",
+              "integrations/google-photos",
+              "integrations/heygen",
+              "integrations/vapi"
+            ]
+          },
+          {
+            "group": "Other",
+            "pages": [
+              "integrations/docusign",
+              "integrations/facebook-pages",
+              "integrations/frontapp",
+              "integrations/google-cloud-translate",
+              "integrations/google-cloud-vision",
+              "integrations/google-maps",
+              "integrations/hellosign",
+              "integrations/prolific",
+              "integrations/stripe"
             ]
           }
         ]

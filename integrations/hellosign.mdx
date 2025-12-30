@@ -1,0 +1,26 @@
+---
+title: "HelloSign"
+description: "Electronic signatures and document workflows."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Go to Settings → Integrations → HelloSign" />
+  <Step title="Enter your HelloSign API key" />
+  <Step title="Done" />
+</Steps>
+
+## Actions
+
+| Action | Example Prompt |
+|--------|----------------|
+| Send signature request | `Send @HelloSign request to {{email}} for document {{file}}` |
+| Get request status | `Get @HelloSign status for request {{requestId}}` |
+| Download document | `Download signed @HelloSign document {{requestId}}` |
+
+## Next
+
+<Card title="DocuSign" icon="signature" href="/integrations/docusign">
+  Alternative e-signature
+</Card>

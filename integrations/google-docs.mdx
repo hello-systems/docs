@@ -1,0 +1,27 @@
+---
+title: "Google Docs"
+description: "Create and edit documents programmatically."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Go to Settings → Integrations → Google Docs" />
+  <Step title="Sign in with Google" />
+  <Step title="Authorize access" />
+</Steps>
+
+## Actions
+
+| Action | Example Prompt |
+|--------|----------------|
+| Create doc | `Create @Google Docs document titled "{{title}}"` |
+| Read doc | `Get content from @Google Docs document {{docId}}` |
+| Append text | `Append "{{text}}" to @Google Docs document {{docId}}` |
+| Replace text | `Replace "{{old}}" with "{{new}}" in @Google Docs {{docId}}` |
+
+## Next
+
+<Card title="Google Sheets" icon="table" href="/integrations/google-sheets">
+  Spreadsheet integration
+</Card>

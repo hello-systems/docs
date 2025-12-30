@@ -1,0 +1,28 @@
+---
+title: "AWS"
+description: "Amazon Web Services cloud platform."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Go to Settings → Integrations → AWS" />
+  <Step title="Enter your AWS Access Key ID" />
+  <Step title="Enter your AWS Secret Access Key" />
+  <Step title="Select your region" />
+</Steps>
+
+## Actions
+
+| Action | Example Prompt |
+|--------|----------------|
+| S3 upload | `Upload {{file}} to @AWS S3 bucket "{{bucket}}"` |
+| S3 download | `Download @AWS S3 file "{{key}}" from bucket "{{bucket}}"` |
+| Lambda invoke | `Invoke @AWS Lambda function "{{functionName}}"` |
+| DynamoDB query | `Query @AWS DynamoDB table "{{table}}"` |
+
+## Next
+
+<Card title="Google Cloud" icon="cloud" href="/integrations/google-cloud">
+  Alternative cloud platform
+</Card>

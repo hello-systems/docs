@@ -1,0 +1,37 @@
+---
+title: "Stripe"
+description: "Payment processing and subscriptions."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Go to Settings → Integrations → Stripe" />
+  <Step title="Enter your Stripe API key" />
+  <Step title="Done" />
+</Steps>
+
+## Actions
+
+| Action | Example Prompt |
+|--------|----------------|
+| Get charges | `Get @Stripe charges for last 30 days` |
+| Get customers | `Get @Stripe customers` |
+| Get subscriptions | `Get active @Stripe subscriptions` |
+| Get invoices | `Get @Stripe invoices for customer {{customerId}}` |
+| Get balance | `Get @Stripe account balance` |
+
+## Example
+
+```
+Get @Stripe charges for last 7 days
+Calculate total revenue
+Group by product
+Output as CSV
+```
+
+## Next
+
+<Card title="E-commerce Guide" icon="store" href="/guides/ecommerce">
+  Automate e-commerce workflows
+</Card>
