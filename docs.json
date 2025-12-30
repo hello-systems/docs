@@ -13,19 +13,11 @@
   "colors": {
     "primary": "#7C9AB8",
     "light": "#5A7A99",
-    "dark": "#FFFFFF"
+    "dark": "#A8C4DE"
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "global": {
-      "anchors": [
-        {
-          "anchor": "App",
-          "icon": "rocket",
-          "href": "https://script.so"
-        }
-      ]
-    },
+    "global": {},
     "tabs": [
       {
         "tab": "Guides",
