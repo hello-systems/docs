@@ -15,14 +15,14 @@ description: "Add approval gates and review steps to keep humans in control of c
 ### Simple approval
 
 ```
-[user-input] Approve sending these 50 emails?
+@form Approve sending these 50 emails?
 Options: Approve All, Reject All
 ```
 
 ### Review and edit
 
 ```
-[user-input] Review the email draft:
+@form Review the email draft:
 - Show the draft
 - Allow editing subject and body
 - Approve or reject
@@ -31,7 +31,7 @@ Options: Approve All, Reject All
 ### Selective approval
 
 ```
-[user-input] Review each lead:
+@form Review each lead:
 - Show details
 - Approve or reject individually
 ```
@@ -39,7 +39,7 @@ Options: Approve All, Reject All
 ### Data entry
 
 ```
-[user-input] Enter discount for this customer:
+@form Enter discount for this customer:
 - Customer history
 - Discount % (0-50)
 - Justification
@@ -56,7 +56,7 @@ Use @OpenAI to write a blog post on the topic
 **Step 2** — Review:
 
 ```
-[user-input] Review the draft:
+@form Review the draft:
 - Read the content
 - Edit for style/tone
 - Approve, request changes, or reject
@@ -84,8 +84,8 @@ Publish to @WordPress
 ## Next
 
 <CardGroup cols={2}>
-  <Card title="User Inputs" icon="hand" href="/tutorials/user-inputs">
-    Basic input tutorial
+  <Card title="Forms" icon="hand" href="/tutorials/forms">
+    Forms tutorial
   </Card>
   <Card title="Outreach Automation" icon="envelope" href="/guides/outreach-automation">
     Apply to outreach

@@ -1,5 +1,5 @@
 ---
-title: "User Inputs"
+title: "Forms"
 description: "Add human checkpoints to your workflows — for approvals, reviews, or manual data entry."
 ---
 
@@ -12,10 +12,10 @@ description: "Add human checkpoints to your workflows — for approvals, reviews
 
 ## Basic Syntax
 
-Add `[user-input]` to any step description:
+Add `@form` to any step description:
 
 ```
-[user-input] Review the email draft and approve before sending
+@form Review the email draft and approve before sending
 ```
 
 The workflow pauses, shows a form, waits for input, then continues.
@@ -31,7 +31,7 @@ Draft a follow-up email for leads who haven't responded in 7 days
 **Step 2** — Get approval:
 
 ```
-[user-input] Review the draft and choose:
+@form Review the draft and choose:
 - Approve and send
 - Edit the subject line
 - Skip this lead
@@ -48,7 +48,7 @@ If approved, send via @Gmail
 Describe what you need naturally. Script generates the appropriate fields:
 
 ```
-[user-input] Ask the user to:
+@form Collect the following:
 - Confirm the recipient list (yes/no)
 - Optionally edit the subject line
 - Add notes for the recipient
@@ -59,19 +59,19 @@ Describe what you need naturally. Script generates the appropriate fields:
 <Tip>Be specific about what's needed:</Tip>
 
 ```
-[user-input] Verify the amount (${{total}}) matches your records
+@form Verify the amount (${{total}}) matches your records
 ```
 
 <Tip>Provide context for decisions:</Tip>
 
 ```
-[user-input] Display the customer name and order history, then ask for approval
+@form Display the customer name and order history, then ask for approval
 ```
 
 <Tip>Make options clear:</Tip>
 
 ```
-[user-input] How should we handle this lead?
+@form How should we handle this lead?
 - Send standard follow-up
 - Send personalized message
 - Mark as not interested

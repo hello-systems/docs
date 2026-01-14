@@ -33,7 +33,7 @@
           {
             "group": "Tutorials",
             "pages": [
-              "tutorials/user-inputs",
+              "tutorials/forms",
               "tutorials/dashboards",
               "tutorials/scraping-data",
               "tutorials/deep-research",
