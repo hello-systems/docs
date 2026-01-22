@@ -1,0 +1,8 @@
+{
+  "name": "docs-joule",
+  "private": true,
+  "scripts": {
+    "build:openapi": "npx @redocly/cli bundle api-reference/openapi.source.yaml --dereferenced -o openapi.yaml",
+    "build": "npm run build:openapi"
+  }
+}

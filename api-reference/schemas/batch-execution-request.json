@@ -1,0 +1,34 @@
+{
+  "$ref": "#/definitions/batch-execution-request",
+  "definitions": {
+    "batch-execution-request": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "minItems": 1,
+          "maxItems": 10000,
+          "description": "Array of input objects for each workflow execution"
+        },
+        "concurrency": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "description": "Concurrency level for parallel executions. low=1, medium=5, high=15. Defaults to the workflow's configured concurrency level."
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "additionalProperties": false,
+      "description": "Request body for batch workflow execution"
+    }
+  }
+}

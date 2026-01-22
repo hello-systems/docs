@@ -1,0 +1,58 @@
+{
+  "$ref": "#/definitions/get-workflows-response",
+  "definitions": {
+    "get-workflows-response": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Unique workflow identifier"
+              },
+              "name": {
+                "type": "string",
+                "description": "Workflow name"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the workflow was created"
+              },
+              "updated_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the workflow was last updated"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "created_at",
+              "updated_at"
+            ],
+            "additionalProperties": false,
+            "description": "Workflow summary"
+          },
+          "description": "List of workflows"
+        },
+        "cursor": {
+          "type": "string",
+          "format": "date-time",
+          "nullable": true,
+          "description": "Cursor for the next page. Null if no more results."
+        }
+      },
+      "required": [
+        "data",
+        "cursor"
+      ],
+      "additionalProperties": false,
+      "description": "Paginated list of workflows"
+    }
+  }
+}

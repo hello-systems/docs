@@ -1,0 +1,24 @@
+{
+  "$ref": "#/definitions/get-executions-query",
+  "definitions": {
+    "get-executions-query": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 100,
+          "description": "Maximum number of executions to return (1-100)"
+        },
+        "cursor": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Pagination cursor (created_at timestamp from previous response). Must be URL-encoded."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Query parameters for listing workflow executions"
+    }
+  }
+}

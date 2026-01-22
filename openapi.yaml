@@ -1,33 +1,30 @@
 openapi: 3.0.3
 info:
-  title: Script API
+  title: Joule API
   description: |
-    Programmatic access to Script workflows.
+    Programmatic access to Joule workflows.
 
-    Script lets you describe workflows in natural language and get code that runs.
-    Use this API to create, manage, and execute workflows programmatically.
+    Joule lets you describe workflows in natural language and get code that runs.
+    Use this API to manage and execute workflows programmatically.
+
+    ## Limitations
+
+    - **Request body size**: Maximum 4MB per request
+    - **Rate limiting**: 100 requests per minute per API key
+    - **Pagination**: List endpoints return up to 100 items per request
+    - **Execution timeout**: Workflows have a maximum execution time of 15 minutes
+    - **Concurrent executions**: Maximum 10 concurrent executions per workflow
   version: 1.0.0
-  contact:
-    email: api@script.so
-    url: https://script.so
-
 servers:
   - url: https://script.so/api/v1
     description: Production
-
 security:
   - BearerAuth: []
-
 tags:
   - name: Workflows
-    description: Create and manage workflows
-  - name: Steps
-    description: Add, update, and delete workflow steps
+    description: Manage workflows
   - name: Executions
     description: Run workflows and retrieve results
-  - name: Batches
-    description: Batch run workflows with multiple inputs
-
 paths:
   /workflows:
     get:
@@ -39,17 +36,22 @@ paths:
       parameters:
         - name: limit
           in: query
-          description: Max results (default 20, max 100)
-          schema:
-            type: integer
-            default: 20
+          required: false
+          description: Maximum number of items to return (1-100)
+          schema: &ref_5
+            type: number
+            minimum: 1
             maximum: 100
-        - name: offset
+            default: 100
+            description: Maximum number of workflows to return (1-100)
+        - name: cursor
           in: query
-          description: Pagination offset
-          schema:
-            type: integer
-            default: 0
+          required: false
+          description: Pagination cursor (created_at timestamp from previous response). Must be URL-encoded.
+          schema: &ref_6
+            type: string
+            format: date-time
+            description: Pagination cursor (created_at timestamp from previous response). Must be URL-encoded.
       responses:
         '200':
           description: List of workflows
@@ -57,696 +59,592 @@ paths:
             application/json:
               schema:
                 type: object
-                properties:
+                properties: &ref_8
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Workflow'
-                  pagination:
-                    $ref: '#/components/schemas/Pagination'
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          description: Unique workflow identifier
+                        name:
+                          type: string
+                          description: Workflow name
+                        created_at:
+                          type: string
+                          format: date-time
+                          description: Timestamp when the workflow was created
+                        updated_at:
+                          type: string
+                          format: date-time
+                          description: Timestamp when the workflow was last updated
+                      required:
+                        - id
+                        - name
+                        - created_at
+                        - updated_at
+                      additionalProperties: false
+                      description: Workflow summary
+                    description: List of workflows
+                  cursor:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: Cursor for the next page. Null if no more results.
+                required: &ref_9
+                  - data
+                  - cursor
+                additionalProperties: false
+                description: Paginated list of workflows
         '401':
-          $ref: '#/components/responses/Unauthorized'
-        '429':
-          $ref: '#/components/responses/RateLimited'
-
-    post:
-      tags:
-        - Workflows
-      summary: Create workflow
-      description: Create a new workflow with one or more steps
-      operationId: createWorkflow
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateWorkflowRequest'
-            example:
-              name: Daily Sales Report
-              description: Generate and send daily sales summary
-              steps:
-                - description: Fetch all orders from Shopify created in the last 24 hours
-                - description: Calculate total revenue, order count, and average order value
-                - description: Send summary to #sales channel on Slack
-      responses:
-        '201':
-          description: Workflow created
-          content:
+          description: Unauthorized - invalid or missing API key
+          content: &ref_0
             application/json:
               schema:
-                $ref: '#/components/schemas/Workflow'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '422':
-          $ref: '#/components/responses/ValidationError'
-
+                type: object
+                properties: &ref_1
+                  error:
+                    type: string
+                    description: Human-readable error message describing what went wrong
+                required: &ref_2
+                  - error
+                additionalProperties: false
+                description: Standard error response returned when an API request fails
   /workflows/{workflowId}:
     get:
       tags:
         - Workflows
       summary: Get workflow
-      description: Retrieve a single workflow and its current status
+      description: Retrieve a single workflow and its details
       operationId: getWorkflow
       parameters:
-        - $ref: '#/components/parameters/WorkflowId'
+        - name: workflowId
+          in: path
+          required: true
+          description: Workflow ID
+          schema: &ref_3
+            type: string
+            format: uuid
       responses:
         '200':
           description: Workflow details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Workflow'
+                type: object
+                properties: &ref_10
+                  id:
+                    type: string
+                    format: uuid
+                    description: Unique workflow identifier
+                  name:
+                    type: string
+                    description: Workflow name
+                  description:
+                    type: string
+                    description: Workflow description
+                  created_at:
+                    type: string
+                    format: date-time
+                    description: Timestamp when the workflow was created
+                  updated_at:
+                    type: string
+                    format: date-time
+                    description: Timestamp when the workflow was last updated
+                  input_schema:
+                    nullable: true
+                    description: JSON Schema defining the expected input format for workflow execution. Null if no input required.
+                required: &ref_11
+                  - id
+                  - name
+                  - description
+                  - created_at
+                  - updated_at
+                additionalProperties: false
+                description: Detailed workflow information
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: Unauthorized - invalid or missing API key
+          content: *ref_0
         '404':
-          $ref: '#/components/responses/NotFound'
-
-  /workflows/{workflowId}/steps:
-    post:
-      tags:
-        - Steps
-      summary: Add step
-      description: Add a new step to an existing workflow
-      operationId: addStep
-      parameters:
-        - $ref: '#/components/parameters/WorkflowId'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateStepRequest'
-            example:
-              description: Save the summary to Google Sheets
-              position: 3
-      responses:
-        '201':
-          description: Step created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Step'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-
-  /workflows/{workflowId}/steps/{stepId}:
-    patch:
-      tags:
-        - Steps
-      summary: Update step
-      description: Update an existing step's description. Triggers a rebuild of the step's code.
-      operationId: updateStep
-      parameters:
-        - $ref: '#/components/parameters/WorkflowId'
-        - $ref: '#/components/parameters/StepId'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateStepRequest'
-            example:
-              description: Send summary to #sales and #leadership channels on Slack
-      responses:
-        '200':
-          description: Step updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Step'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-
-    delete:
-      tags:
-        - Steps
-      summary: Delete step
-      description: Remove a step from a workflow
-      operationId: deleteStep
-      parameters:
-        - $ref: '#/components/parameters/WorkflowId'
-        - $ref: '#/components/parameters/StepId'
-      responses:
-        '200':
-          description: Step deleted
-          content:
+          description: Not found - resource doesn't exist
+          content: &ref_4
             application/json:
               schema:
                 type: object
-                properties:
-                  deleted:
-                    type: boolean
-                    example: true
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-
-  /workflows/{workflowId}/run:
+                properties: *ref_1
+                required: *ref_2
+                additionalProperties: false
+                description: Standard error response returned when an API request fails
+  /workflows/{workflowId}/executions:
     post:
       tags:
         - Executions
-      summary: Run workflow
+      summary: Create execution
       description: Execute a workflow. Returns immediately with an execution ID.
-      operationId: runWorkflow
+      operationId: createExecution
       parameters:
-        - $ref: '#/components/parameters/WorkflowId'
+        - name: workflowId
+          in: path
+          required: true
+          description: Workflow ID
+          schema: *ref_3
       requestBody:
         required: false
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RunWorkflowRequest'
-            example:
-              inputs:
-                date_range: last_7_days
-                min_order_value: 100
+              type: object
+              properties: &ref_12
+                input:
+                  type: object
+                  additionalProperties: {}
+                  description: Input data for the workflow execution. Must match the workflow's input_schema if defined.
+              additionalProperties: false
+              description: Request body for creating a new workflow execution
       responses:
         '200':
-          description: Execution started
+          description: Execution created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExecutionStarted'
-        '400':
-          $ref: '#/components/responses/BadRequest'
+                type: object
+                properties: &ref_13
+                  execution_id:
+                    type: string
+                    format: uuid
+                    description: Unique identifier for the created execution
+                  workflow_id:
+                    type: string
+                    format: uuid
+                    description: ID of the workflow being executed
+                  status:
+                    type: string
+                    enum:
+                      - initial
+                      - processing
+                      - human_in_the_loop
+                      - finished
+                      - error
+                    description: Current execution status
+                  created_at:
+                    type: string
+                    format: date-time
+                    description: Timestamp when the execution was created
+                required: &ref_14
+                  - execution_id
+                  - workflow_id
+                  - status
+                  - created_at
+                additionalProperties: false
+                description: Response after successfully creating a workflow execution
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: Unauthorized - invalid or missing API key
+          content: *ref_0
         '404':
-          $ref: '#/components/responses/NotFound'
-
-  /workflows/{workflowId}/batch:
+          description: Not found - resource doesn't exist
+          content: *ref_4
+    get:
+      tags:
+        - Executions
+      summary: List executions
+      description: Retrieve all executions for a workflow
+      operationId: listExecutions
+      parameters:
+        - name: workflowId
+          in: path
+          required: true
+          description: Workflow ID
+          schema: *ref_3
+        - name: limit
+          in: query
+          required: false
+          description: Maximum number of items to return (1-100)
+          schema: *ref_5
+        - name: cursor
+          in: query
+          required: false
+          description: Pagination cursor (created_at timestamp from previous response). Must be URL-encoded.
+          schema: *ref_6
+      responses:
+        '200':
+          description: List of executions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: &ref_15
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          description: Unique execution identifier
+                        workflow_id:
+                          type: string
+                          format: uuid
+                          description: ID of the workflow being executed
+                        status:
+                          type: string
+                          enum:
+                            - initial
+                            - processing
+                            - human_in_the_loop
+                            - finished
+                            - error
+                          description: Current execution status
+                        created_at:
+                          type: string
+                          format: date-time
+                          description: Timestamp when the execution was created
+                      required:
+                        - id
+                        - workflow_id
+                        - status
+                        - created_at
+                      additionalProperties: false
+                      description: Summary of a workflow execution
+                    description: List of workflow executions
+                  cursor:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: Cursor for the next page. Null if no more results.
+                required: &ref_16
+                  - data
+                  - cursor
+                additionalProperties: false
+                description: Paginated list of workflow executions
+        '401':
+          description: Unauthorized - invalid or missing API key
+          content: *ref_0
+        '404':
+          description: Not found - resource doesn't exist
+          content: *ref_4
+  /workflows/{workflowId}/executions/batch:
     post:
       tags:
-        - Batches
-      summary: Batch run
-      description: Execute a workflow multiple times with different inputs
-      operationId: batchRunWorkflow
+        - Executions
+      summary: Create batch execution
+      description: |
+        Execute a workflow multiple times with different inputs in a single request.
+        Returns immediately with execution IDs for each item.
+      operationId: createBatchExecution
       parameters:
-        - $ref: '#/components/parameters/WorkflowId'
+        - name: workflowId
+          in: path
+          required: true
+          description: Workflow ID
+          schema: *ref_3
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BatchRunRequest'
-            example:
-              items:
-                - company: Acme Corp
-                  email: john@acme.com
-                - company: Globex
-                  email: jane@globex.com
-                - company: Initech
-                  email: bob@initech.com
-              concurrency: 3
+              type: object
+              properties: &ref_17
+                items:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: {}
+                  minItems: 1
+                  maxItems: 10000
+                  description: Array of input objects for each workflow execution
+                concurrency:
+                  type: string
+                  enum:
+                    - low
+                    - medium
+                    - high
+                  description: Concurrency level for parallel executions. low=1, medium=5, high=15. Defaults to the workflow's configured concurrency level.
+              required: &ref_18
+                - items
+              additionalProperties: false
+              description: Request body for batch workflow execution
       responses:
         '200':
-          description: Batch started
+          description: Batch execution created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Batch'
-        '400':
-          $ref: '#/components/responses/BadRequest'
+                type: object
+                properties: &ref_19
+                  workflow_id:
+                    type: string
+                    format: uuid
+                    description: ID of the workflow being executed
+                  total:
+                    type: integer
+                    minimum: 0
+                    description: Total number of items in the batch
+                  executions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        execution_id:
+                          type: string
+                          format: uuid
+                          description: Unique identifier for the execution
+                        index:
+                          type: integer
+                          minimum: 0
+                          description: Index of the item in the input array
+                      required:
+                        - execution_id
+                        - index
+                      additionalProperties: false
+                    description: Details of each execution
+                required: &ref_20
+                  - workflow_id
+                  - total
+                  - executions
+                additionalProperties: false
+                description: Response after batch execution request
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: Unauthorized - invalid or missing API key
+          content: *ref_0
         '404':
-          $ref: '#/components/responses/NotFound'
-
-  /executions/{executionId}:
+          description: Not found - resource doesn't exist
+          content: *ref_4
+  /workflows/{workflowId}/executions/{executionId}:
     get:
       tags:
         - Executions
-      summary: Get execution status
-      description: Check the status of a running or completed execution
+      summary: Get execution
+      description: Retrieve the status and details of an execution
       operationId: getExecution
       parameters:
-        - $ref: '#/components/parameters/ExecutionId'
+        - name: workflowId
+          in: path
+          required: true
+          description: Workflow ID
+          schema: *ref_3
+        - name: executionId
+          in: path
+          required: true
+          description: Execution ID
+          schema: &ref_7
+            type: string
+            format: uuid
       responses:
         '200':
-          description: Execution status
+          description: Execution details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Execution'
+                type: object
+                properties: &ref_21
+                  id:
+                    type: string
+                    format: uuid
+                    description: Unique execution identifier
+                  workflow_id:
+                    type: string
+                    format: uuid
+                    description: ID of the workflow being executed
+                  status:
+                    type: string
+                    enum:
+                      - initial
+                      - processing
+                      - human_in_the_loop
+                      - finished
+                      - error
+                    description: Current execution status
+                  created_at:
+                    type: string
+                    format: date-time
+                    description: Timestamp when the execution was created
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        filename:
+                          type: string
+                          description: Name of the output file (e.g., 'result.json', 'report.csv', 'dashboard.html')
+                        url:
+                          type: string
+                          format: uri
+                          description: Presigned URL to download the file (expires in 1 hour)
+                      required:
+                        - filename
+                        - url
+                      additionalProperties: false
+                    nullable: true
+                    description: Output files from the workflow's last step. Null if execution is not finished.
+                required: &ref_22
+                  - id
+                  - workflow_id
+                  - status
+                  - created_at
+                  - results
+                additionalProperties: false
+                description: Detailed workflow execution information
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: Unauthorized - invalid or missing API key
+          content: *ref_0
         '404':
-          $ref: '#/components/responses/NotFound'
-
-  /executions/{executionId}/results:
-    get:
-      tags:
-        - Executions
-      summary: Get execution results
-      description: Retrieve the output files and data from a completed execution
-      operationId: getExecutionResults
-      parameters:
-        - $ref: '#/components/parameters/ExecutionId'
-      responses:
-        '200':
-          description: Execution results
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExecutionResults'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-
-  /batches/{batchId}:
-    get:
-      tags:
-        - Batches
-      summary: Get batch status
-      description: Check status of a batch run
-      operationId: getBatch
-      parameters:
-        - $ref: '#/components/parameters/BatchId'
-      responses:
-        '200':
-          description: Batch status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Batch'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-
+          description: Not found - resource doesn't exist
+          content: *ref_4
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
-      description: |
-        API key authentication. Get your key from Settings → API Keys.
-
-        Use `sk_live_` prefix for production, `sk_test_` for development.
-
+      description: API key authentication. Get your key from Settings → API Keys.
   parameters:
     WorkflowId:
       name: workflowId
       in: path
       required: true
       description: Workflow ID
-      schema:
-        type: string
-        example: wf_xyz789
-
-    StepId:
-      name: stepId
-      in: path
-      required: true
-      description: Step ID
-      schema:
-        type: string
-        example: step_1
-
+      schema: *ref_3
     ExecutionId:
       name: executionId
       in: path
       required: true
       description: Execution ID
-      schema:
-        type: string
-        example: exec_abc123
-
-    BatchId:
-      name: batchId
-      in: path
-      required: true
-      description: Batch ID
-      schema:
-        type: string
-        example: batch_xyz789
-
+      schema: *ref_7
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Maximum number of items to return (1-100)
+      schema: *ref_5
+    Cursor:
+      name: cursor
+      in: query
+      required: false
+      description: Pagination cursor (created_at timestamp from previous response). Must be URL-encoded.
+      schema: *ref_6
   schemas:
-    Workflow:
+    GetWorkflowsResponse:
       type: object
-      properties:
-        id:
-          type: string
-          example: wf_xyz789
-        name:
-          type: string
-          example: Daily Sales Report
-        description:
-          type: string
-          example: Generate and send daily sales summary
-        status:
-          type: string
-          enum: [building, ready, error]
-          description: |
-            - `building`: Code generation in progress
-            - `ready`: Workflow is ready to run
-            - `error`: Build failed
-        job_id:
-          type: string
-          example: job_build_abc123
-          description: Build job ID (only present when status is building)
-        steps:
-          type: array
-          items:
-            $ref: '#/components/schemas/Step'
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-
-    Step:
+      properties: *ref_8
+      required: *ref_9
+      additionalProperties: false
+      description: Paginated list of workflows
+    GetWorkflowDetailResponse:
       type: object
-      properties:
-        id:
-          type: string
-          example: step_1
-        description:
-          type: string
-          example: Fetch all orders from Shopify created in the last 24 hours
-        status:
-          type: string
-          enum: [pending, building, ready, error]
-        position:
-          type: integer
-          example: 1
-        inputs:
-          type: array
-          items:
-            type: string
-          example: [orders]
-        outputs:
-          type: array
-          items:
-            type: string
-          example: [summary]
-
-    CreateWorkflowRequest:
+      properties: *ref_10
+      required: *ref_11
+      additionalProperties: false
+      description: Detailed workflow information
+    CreateExecutionRequest:
       type: object
-      required:
-        - name
-        - steps
-      properties:
-        name:
-          type: string
-          description: Workflow name
-        description:
-          type: string
-          description: Optional description
-        steps:
-          type: array
-          items:
-            type: object
-            required:
-              - description
-            properties:
-              description:
-                type: string
-                description: Natural language description of what the step does
-              integrations:
-                type: array
-                items:
-                  type: string
-                description: Integration hints (e.g., ["gmail", "slack"])
-
-    CreateStepRequest:
+      properties: *ref_12
+      additionalProperties: false
+      description: Request body for creating a new workflow execution
+    CreateExecutionResponse:
       type: object
-      required:
-        - description
-      properties:
-        description:
-          type: string
-          description: Natural language description
-        position:
-          type: integer
-          description: Insert position (default is append to end)
-
-    UpdateStepRequest:
+      properties: *ref_13
+      required: *ref_14
+      additionalProperties: false
+      description: Response after successfully creating a workflow execution
+    GetExecutionsResponse:
       type: object
-      required:
-        - description
-      properties:
-        description:
-          type: string
-          description: Updated natural language description
-
-    RunWorkflowRequest:
+      properties: *ref_15
+      required: *ref_16
+      additionalProperties: false
+      description: Paginated list of workflow executions
+    BatchExecutionRequest:
       type: object
-      properties:
-        inputs:
-          type: object
-          additionalProperties: true
-          description: Input values for parameterized workflows
-
-    BatchRunRequest:
+      properties: *ref_17
+      required: *ref_18
+      additionalProperties: false
+      description: Request body for batch workflow execution
+    BatchExecutionResponse:
       type: object
-      required:
-        - items
-      properties:
-        items:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-          description: Array of input objects
-        concurrency:
-          type: integer
-          default: 5
-          description: Max parallel executions
-
-    ExecutionStarted:
+      properties: *ref_19
+      required: *ref_20
+      additionalProperties: false
+      description: Response after batch execution request
+    GetExecutionResponse:
       type: object
-      properties:
-        execution_id:
-          type: string
-          example: exec_abc123
-        workflow_id:
-          type: string
-          example: wf_xyz789
-        status:
-          type: string
-          example: running
-        started_at:
-          type: string
-          format: date-time
-
-    Execution:
+      properties: *ref_21
+      required: *ref_22
+      additionalProperties: false
+      description: Detailed workflow execution information
+    ErrorResponse:
       type: object
-      properties:
-        execution_id:
-          type: string
-          example: exec_abc123
-        workflow_id:
-          type: string
-          example: wf_xyz789
-        status:
-          type: string
-          enum: [pending, running, completed, failed, cancelled]
-          description: |
-            - `pending`: Queued, not yet started
-            - `running`: Currently executing
-            - `completed`: Finished successfully
-            - `failed`: Execution failed
-            - `cancelled`: Manually cancelled
-        current_step:
-          type: string
-          example: step_2
-          description: Currently executing step (only when running)
-        steps:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              status:
-                type: string
-                enum: [pending, running, completed, failed]
-              duration_ms:
-                type: integer
-        started_at:
-          type: string
-          format: date-time
-        completed_at:
-          type: string
-          format: date-time
-        duration_ms:
-          type: integer
-
-    ExecutionResults:
+      properties: *ref_1
+      required: *ref_2
+      additionalProperties: false
+      description: Standard error response returned when an API request fails
+    limit:
+      type: number
+      minimum: 1
+      maximum: 100
+      default: 100
+      description: Maximum number of workflows to return (1-100)
+    cursor:
+      type: string
+      format: date-time
+      description: Pagination cursor (created_at timestamp from previous response). Must be URL-encoded.
+    get-workflows-response:
       type: object
-      properties:
-        execution_id:
-          type: string
-        status:
-          type: string
-        outputs:
-          type: object
-          additionalProperties:
-            type: object
-            properties:
-              data:
-                type: object
-                additionalProperties: true
-        files:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                example: orders.csv
-              url:
-                type: string
-                format: uri
-                example: https://files.script.so/exec_abc123/orders.csv
-              size_bytes:
-                type: integer
-                example: 1024
-              content_type:
-                type: string
-                example: text/csv
-
-    Batch:
+      properties: *ref_8
+      required: *ref_9
+      additionalProperties: false
+      description: Paginated list of workflows
+    error-response:
       type: object
-      properties:
-        batch_id:
-          type: string
-          example: batch_xyz789
-        workflow_id:
-          type: string
-          example: wf_xyz789
-        status:
-          type: string
-          enum: [pending, running, completed, failed]
-        total:
-          type: integer
-          example: 3
-        completed:
-          type: integer
-          example: 3
-        failed:
-          type: integer
-          example: 0
-        executions:
-          type: array
-          items:
-            type: object
-            properties:
-              execution_id:
-                type: string
-              inputs:
-                type: object
-              status:
-                type: string
-              duration_ms:
-                type: integer
-        started_at:
-          type: string
-          format: date-time
-        completed_at:
-          type: string
-          format: date-time
-
-    Pagination:
+      properties: *ref_1
+      required: *ref_2
+      additionalProperties: false
+      description: Standard error response returned when an API request fails
+    get-workflow-detail-response:
       type: object
-      properties:
-        total:
-          type: integer
-          example: 12
-        limit:
-          type: integer
-          example: 20
-        offset:
-          type: integer
-          example: 0
-
-    Error:
+      properties: *ref_10
+      required: *ref_11
+      additionalProperties: false
+      description: Detailed workflow information
+    get-executions-response:
       type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              example: validation_error
-            message:
-              type: string
-              example: Step description is required
-            field:
-              type: string
-              example: steps[0].description
-
+      properties: *ref_15
+      required: *ref_16
+      additionalProperties: false
+      description: Paginated list of workflow executions
+    create-execution-request:
+      type: object
+      properties: *ref_12
+      additionalProperties: false
+      description: Request body for creating a new workflow execution
+    create-execution-response:
+      type: object
+      properties: *ref_13
+      required: *ref_14
+      additionalProperties: false
+      description: Response after successfully creating a workflow execution
+    batch-execution-request:
+      type: object
+      properties: *ref_17
+      required: *ref_18
+      additionalProperties: false
+      description: Request body for batch workflow execution
+    batch-execution-response:
+      type: object
+      properties: *ref_19
+      required: *ref_20
+      additionalProperties: false
+      description: Response after batch execution request
+    get-execution-response:
+      type: object
+      properties: *ref_21
+      required: *ref_22
+      additionalProperties: false
+      description: Detailed workflow execution information
   responses:
-    BadRequest:
-      description: Bad request - invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-
     Unauthorized:
       description: Unauthorized - invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error:
-              code: unauthorized
-              message: Invalid API key
-
+      content: *ref_0
     NotFound:
       description: Not found - resource doesn't exist
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error:
-              code: not_found
-              message: Workflow not found
-
-    ValidationError:
-      description: Validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-
-    RateLimited:
-      description: Rate limited - too many requests
-      headers:
-        X-RateLimit-Limit:
-          schema:
-            type: integer
-          description: Request limit per minute
-        X-RateLimit-Remaining:
-          schema:
-            type: integer
-          description: Remaining requests
-        X-RateLimit-Reset:
-          schema:
-            type: integer
-          description: Unix timestamp when limit resets
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error:
-              code: rate_limited
-              message: Too many requests
+      content: *ref_4

@@ -1,0 +1,69 @@
+{
+  "$ref": "#/definitions/get-execution-response",
+  "definitions": {
+    "get-execution-response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique execution identifier"
+        },
+        "workflow_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "ID of the workflow being executed"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "initial",
+            "processing",
+            "human_in_the_loop",
+            "finished",
+            "error"
+          ],
+          "description": "Current execution status"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the execution was created"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "filename": {
+                "type": "string",
+                "description": "Name of the output file (e.g., 'result.json', 'report.csv', 'dashboard.html')"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Presigned URL to download the file (expires in 1 hour)"
+              }
+            },
+            "required": [
+              "filename",
+              "url"
+            ],
+            "additionalProperties": false
+          },
+          "nullable": true,
+          "description": "Output files from the workflow's last step. Null if execution is not finished."
+        }
+      },
+      "required": [
+        "id",
+        "workflow_id",
+        "status",
+        "created_at",
+        "results"
+      ],
+      "additionalProperties": false,
+      "description": "Detailed workflow execution information"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "$ref": "#/definitions/create-execution-response",
+  "definitions": {
+    "create-execution-response": {
+      "type": "object",
+      "properties": {
+        "execution_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the created execution"
+        },
+        "workflow_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "ID of the workflow being executed"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "initial",
+            "processing",
+            "human_in_the_loop",
+            "finished",
+            "error"
+          ],
+          "description": "Current execution status"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the execution was created"
+        }
+      },
+      "required": [
+        "execution_id",
+        "workflow_id",
+        "status",
+        "created_at"
+      ],
+      "additionalProperties": false,
+      "description": "Response after successfully creating a workflow execution"
+    }
+  }
+}

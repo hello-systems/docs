@@ -7,11 +7,9 @@ description: "Trigger workflows programmatically, manage executions, and integra
 
 The Script API lets you:
 
-- **Create and manage workflows** programmatically
-- **Run workflows** with custom inputs
-- **Batch process** hundreds of items
-- **Monitor execution** status and results
-- **Modify steps** dynamically
+- **List and view workflows** in your account
+- **Run workflows** with custom inputs (single or batch)
+- **Monitor executions** and retrieve results
 
 ## Base URL
 
@@ -21,7 +19,7 @@ https://script.so/api/v1
 
 ## Authentication
 
-All endpoints require a Bearer token. Get your API key from [Settings → API](https://app.script.so/settings/api).
+All endpoints require a Bearer token. Get your API key from [Settings → API Keys](https://script.so/app/settings/api-keys).
 
 ```bash
 curl https://script.so/api/v1/workflows \
@@ -37,63 +35,170 @@ curl https://script.so/api/v1/workflows \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
-### 2. Run a workflow
-
-```bash
-curl -X POST https://script.so/api/v1/workflows/{workflow_id}/run \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"inputs": {"email": "john@example.com"}}'
+```json
+{
+  "data": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "name": "Send welcome email",
+      "created_at": "2024-01-15T10:30:00Z",
+      "updated_at": "2024-01-15T10:30:00Z"
+    }
+  ],
+  "cursor": null
+}
 ```
 
-### 3. Check execution status
+### 2. Get workflow details
+
+Retrieve a workflow to see its input schema:
 
 ```bash
-curl https://script.so/api/v1/executions/{execution_id} \
+curl https://script.so/api/v1/workflows/{workflowId} \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
-## Response Format
-
-All responses are JSON:
-
 ```json
 {
-  "data": { ... },
-  "meta": {
-    "request_id": "req_abc123"
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "name": "Send welcome email",
+  "description": "Sends a personalized welcome email to new users",
+  "created_at": "2024-01-15T10:30:00Z",
+  "updated_at": "2024-01-15T10:30:00Z",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "email": { "type": "string" },
+      "name": { "type": "string" }
+    },
+    "required": ["email"]
   }
 }
 ```
 
-## Rate Limits
+### 3. Run a workflow
 
-| Plan | Requests/minute | Concurrent executions |
-|------|-----------------|----------------------|
-| Free | 60 | 5 |
-| Pro | 300 | 25 |
-| Enterprise | Custom | Custom |
+```bash
+curl -X POST https://script.so/api/v1/workflows/{workflowId}/executions \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"input": {"email": "john@example.com", "name": "John"}}'
+```
+
+```json
+{
+  "execution_id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+  "workflow_id": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "initial",
+  "created_at": "2024-01-15T10:35:00Z"
+}
+```
+
+### 4. Check execution status and get results
+
+Poll the execution endpoint until status is `finished`:
+
+```bash
+curl https://script.so/api/v1/workflows/{workflowId}/executions/{executionId} \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json
+{
+  "id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+  "workflow_id": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "finished",
+  "created_at": "2024-01-15T10:35:00Z",
+  "results": [
+    {
+      "filename": "result.json",
+      "url": "https://storage.script.so/results/abc123?token=xyz"
+    }
+  ]
+}
+```
+
+Results are returned as presigned URLs that expire in 1 hour.
+
+## Batch Executions
+
+Run a workflow multiple times with different inputs in a single request:
+
+```bash
+curl -X POST https://script.so/api/v1/workflows/{workflowId}/executions/batch \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "items": [
+      {"email": "alice@example.com", "name": "Alice"},
+      {"email": "bob@example.com", "name": "Bob"}
+    ],
+    "concurrency": "medium"
+  }'
+```
+
+```json
+{
+  "workflow_id": "550e8400-e29b-41d4-a716-446655440000",
+  "total": 2,
+  "executions": [
+    {"execution_id": "aaa-111", "index": 0},
+    {"execution_id": "bbb-222", "index": 1}
+  ]
+}
+```
+
+Concurrency levels: `low` (1), `medium` (5), `high` (15).
+
+## Execution Status
+
+| Status              | Description                        |
+| ------------------- | ---------------------------------- |
+| `initial`           | Execution created, not yet started |
+| `processing`        | Currently running                  |
+| `human_in_the_loop` | Waiting for human approval         |
+| `finished`          | Completed successfully             |
+| `error`             | Execution failed                   |
+
+## Pagination
+
+List endpoints return paginated results with a `cursor` field:
+
+```bash
+# First page
+curl "https://script.so/api/v1/workflows?limit=10"
+
+# Next page (URL-encode the cursor value)
+curl "https://script.so/api/v1/workflows?limit=10&cursor=2024-01-15T10%3A30%3A00Z"
+```
+
+When `cursor` is `null`, there are no more results.
+
+## Limitations
+
+| Limit                 | Value       | Description                                      |
+| --------------------- | ----------- | ------------------------------------------------ |
+| Request body size     | 4 MB        | Maximum size for request payloads                |
+| Rate limiting         | 100/min     | Requests per minute per API key                  |
+| Pagination limit      | 100 items   | Maximum items returned per list request          |
+| Execution timeout     | 15 minutes  | Maximum runtime for a single workflow execution  |
+| Concurrent executions | 10          | Maximum concurrent executions per workflow       |
+| Batch size            | 10,000      | Maximum items per batch execution request        |
 
 ## Errors
 
-| Code | Description |
-|------|-------------|
-| 400 | Bad request — check your parameters |
-| 401 | Unauthorized — invalid or missing API key |
-| 404 | Not found — resource doesn't exist |
-| 429 | Rate limited — slow down |
-| 500 | Server error — try again later |
+| Code | Description                               |
+| ---- | ----------------------------------------- |
+| 400  | Bad request — check your parameters       |
+| 401  | Unauthorized — invalid or missing API key |
+| 404  | Not found — resource doesn't exist        |
+| 429  | Rate limited — slow down                  |
+| 500  | Server error — try again later            |
 
-## Endpoints
+Error responses include a message:
 
-<CardGroup cols={2}>
-  <Card title="Workflows" icon="diagram-project" href="/api-reference/workflows/list">
-    List, create, and manage workflows
-  </Card>
-  <Card title="Executions" icon="play" href="/api-reference/executions/run">
-    Run workflows and check status
-  </Card>
-  <Card title="Steps" icon="list-check" href="/api-reference/steps/add">
-    Add, update, and delete steps
-  </Card>
-</CardGroup>
+```json
+{
+  "error": "Workflow not found"
+}
+```

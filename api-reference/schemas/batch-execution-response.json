@@ -1,0 +1,51 @@
+{
+  "$ref": "#/definitions/batch-execution-response",
+  "definitions": {
+    "batch-execution-response": {
+      "type": "object",
+      "properties": {
+        "workflow_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "ID of the workflow being executed"
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of items in the batch"
+        },
+        "executions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "execution_id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Unique identifier for the execution"
+              },
+              "index": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Index of the item in the input array"
+              }
+            },
+            "required": [
+              "execution_id",
+              "index"
+            ],
+            "additionalProperties": false
+          },
+          "description": "Details of each execution"
+        }
+      },
+      "required": [
+        "workflow_id",
+        "total",
+        "executions"
+      ],
+      "additionalProperties": false,
+      "description": "Response after batch execution request"
+    }
+  }
+}

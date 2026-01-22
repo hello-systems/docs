@@ -1,0 +1,46 @@
+{
+  "$ref": "#/definitions/get-workflow-detail-response",
+  "definitions": {
+    "get-workflow-detail-response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique workflow identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Workflow name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Workflow description"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the workflow was created"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the workflow was last updated"
+        },
+        "input_schema": {
+          "nullable": true,
+          "description": "JSON Schema defining the expected input format for workflow execution. Null if no input required."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "created_at",
+        "updated_at"
+      ],
+      "additionalProperties": false,
+      "description": "Detailed workflow information"
+    }
+  }
+}

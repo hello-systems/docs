@@ -1,0 +1,65 @@
+{
+  "$ref": "#/definitions/get-executions-response",
+  "definitions": {
+    "get-executions-response": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Unique execution identifier"
+              },
+              "workflow_id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "ID of the workflow being executed"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "initial",
+                  "processing",
+                  "human_in_the_loop",
+                  "finished",
+                  "error"
+                ],
+                "description": "Current execution status"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the execution was created"
+              }
+            },
+            "required": [
+              "id",
+              "workflow_id",
+              "status",
+              "created_at"
+            ],
+            "additionalProperties": false,
+            "description": "Summary of a workflow execution"
+          },
+          "description": "List of workflow executions"
+        },
+        "cursor": {
+          "type": "string",
+          "format": "date-time",
+          "nullable": true,
+          "description": "Cursor for the next page. Null if no more results."
+        }
+      },
+      "required": [
+        "data",
+        "cursor"
+      ],
+      "additionalProperties": false,
+      "description": "Paginated list of workflow executions"
+    }
+  }
+}

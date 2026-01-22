@@ -1,0 +1,266 @@
+openapi: 3.0.3
+info:
+  title: Joule API
+  description: |
+    Programmatic access to Joule workflows.
+
+    Joule lets you describe workflows in natural language and get code that runs.
+    Use this API to manage and execute workflows programmatically.
+
+    ## Limitations
+
+    - **Request body size**: Maximum 4MB per request
+    - **Rate limiting**: 100 requests per minute per API key
+    - **Pagination**: List endpoints return up to 100 items per request
+    - **Execution timeout**: Workflows have a maximum execution time of 15 minutes
+    - **Concurrent executions**: Maximum 10 concurrent executions per workflow
+  version: 1.0.0
+
+servers:
+  - url: https://script.so/api/v1
+    description: Production
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Workflows
+    description: Manage workflows
+  - name: Executions
+    description: Run workflows and retrieve results
+
+paths:
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Workflows
+  # ─────────────────────────────────────────────────────────────────────────────
+  /workflows:
+    get:
+      tags:
+        - Workflows
+      summary: List workflows
+      description: Retrieve all workflows for your account
+      operationId: listWorkflows
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      responses:
+        '200':
+          description: List of workflows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetWorkflowsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /workflows/{workflowId}:
+    get:
+      tags:
+        - Workflows
+      summary: Get workflow
+      description: Retrieve a single workflow and its details
+      operationId: getWorkflow
+      parameters:
+        - $ref: '#/components/parameters/WorkflowId'
+      responses:
+        '200':
+          description: Workflow details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetWorkflowDetailResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Executions
+  # ─────────────────────────────────────────────────────────────────────────────
+  /workflows/{workflowId}/executions:
+    post:
+      tags:
+        - Executions
+      summary: Create execution
+      description: Execute a workflow. Returns immediately with an execution ID.
+      operationId: createExecution
+      parameters:
+        - $ref: '#/components/parameters/WorkflowId'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateExecutionRequest'
+      responses:
+        '200':
+          description: Execution created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateExecutionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    get:
+      tags:
+        - Executions
+      summary: List executions
+      description: Retrieve all executions for a workflow
+      operationId: listExecutions
+      parameters:
+        - $ref: '#/components/parameters/WorkflowId'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      responses:
+        '200':
+          description: List of executions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetExecutionsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /workflows/{workflowId}/executions/batch:
+    post:
+      tags:
+        - Executions
+      summary: Create batch execution
+      description: |
+        Execute a workflow multiple times with different inputs in a single request.
+        Returns immediately with execution IDs for each item.
+      operationId: createBatchExecution
+      parameters:
+        - $ref: '#/components/parameters/WorkflowId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchExecutionRequest'
+      responses:
+        '200':
+          description: Batch execution created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchExecutionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /workflows/{workflowId}/executions/{executionId}:
+    get:
+      tags:
+        - Executions
+      summary: Get execution
+      description: Retrieve the status and details of an execution
+      operationId: getExecution
+      parameters:
+        - $ref: '#/components/parameters/WorkflowId'
+        - $ref: '#/components/parameters/ExecutionId'
+      responses:
+        '200':
+          description: Execution details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetExecutionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: API key authentication. Get your key from Settings → API Keys.
+
+  parameters:
+    WorkflowId:
+      name: workflowId
+      in: path
+      required: true
+      description: Workflow ID
+      schema:
+        type: string
+        format: uuid
+
+    ExecutionId:
+      name: executionId
+      in: path
+      required: true
+      description: Execution ID
+      schema:
+        type: string
+        format: uuid
+
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Maximum number of items to return (1-100)
+      schema:
+        $ref: './schemas/get-workflows-query.json#/definitions/get-workflows-query/properties/limit'
+
+    Cursor:
+      name: cursor
+      in: query
+      required: false
+      description: Pagination cursor (created_at timestamp from previous response). Must be URL-encoded.
+      schema:
+        $ref: './schemas/get-workflows-query.json#/definitions/get-workflows-query/properties/cursor'
+
+  schemas:
+    # Workflows
+    GetWorkflowsResponse:
+      $ref: './schemas/get-workflows-response.json#/definitions/get-workflows-response'
+
+    GetWorkflowDetailResponse:
+      $ref: './schemas/get-workflow-detail-response.json#/definitions/get-workflow-detail-response'
+
+    # Executions
+    CreateExecutionRequest:
+      $ref: './schemas/create-execution-request.json#/definitions/create-execution-request'
+
+    CreateExecutionResponse:
+      $ref: './schemas/create-execution-response.json#/definitions/create-execution-response'
+
+    GetExecutionsResponse:
+      $ref: './schemas/get-executions-response.json#/definitions/get-executions-response'
+
+    BatchExecutionRequest:
+      $ref: './schemas/batch-execution-request.json#/definitions/batch-execution-request'
+
+    BatchExecutionResponse:
+      $ref: './schemas/batch-execution-response.json#/definitions/batch-execution-response'
+
+    GetExecutionResponse:
+      $ref: './schemas/get-execution-response.json#/definitions/get-execution-response'
+
+    # Errors
+    ErrorResponse:
+      $ref: './schemas/error-response.json#/definitions/error-response'
+
+  responses:
+    Unauthorized:
+      description: Unauthorized - invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+      description: Not found - resource doesn't exist
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

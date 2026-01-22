@@ -1,0 +1,17 @@
+{
+  "$ref": "#/definitions/create-execution-request",
+  "definitions": {
+    "create-execution-request": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "object",
+          "additionalProperties": {},
+          "description": "Input data for the workflow execution. Must match the workflow's input_schema if defined."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Request body for creating a new workflow execution"
+    }
+  }
+}

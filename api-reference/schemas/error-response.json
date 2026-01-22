@@ -1,0 +1,19 @@
+{
+  "$ref": "#/definitions/error-response",
+  "definitions": {
+    "error-response": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "Human-readable error message describing what went wrong"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "additionalProperties": false,
+      "description": "Standard error response returned when an API request fails"
+    }
+  }
+}
